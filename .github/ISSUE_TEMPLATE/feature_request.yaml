@@ -1,0 +1,17 @@
+name: 💡 Feature Request
+description: Suggest a new feature
+title: "[Feature]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for making a suggestion!
+  - type: textarea
+    id: wanted-features
+    attributes:
+      label: Feature
+      description: Tell us which feature you'd like to see.
+      placeholder: Enlighten us...
+    validations:
+      required: true
+
