@@ -1,15 +1,18 @@
-package com.slampvp.factory.command.generic;
+package com.slampvp.factory.command.plot;
 
 import com.slampvp.factory.command.Command;
 import com.slampvp.factory.command.FactoryCommand;
+import com.slampvp.factory.command.plot.sub.ClaimCommand;
 import com.slampvp.factory.player.Rank;
 import net.minestom.server.command.builder.arguments.ArgumentType;
 import net.minestom.server.command.builder.arguments.number.ArgumentInteger;
 
-@Command(description = "Test", usage = "/test <number>", minimumRank = Rank.DEFAULT, playerOnly = false)
-public class TestCommand extends FactoryCommand {
-    public TestCommand() {
-        super("test");
+@Command(description = "Plot command.", usage = "/plot", minimumRank = Rank.DEFAULT, playerOnly = true)
+public class PlotCommand extends FactoryCommand {
+    public PlotCommand() {
+        super("plot");
+
+        addSubcommand(new ClaimCommand());
     }
 
     @Override

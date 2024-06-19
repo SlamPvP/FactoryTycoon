@@ -1,29 +1,34 @@
 package com.slampvp.factory;
 
 import com.slampvp.factory.command.FactoryCommand;
+import com.slampvp.factory.common.Constants;
+import com.slampvp.factory.common.Locale;
 import com.slampvp.factory.plot.PlotGenerator;
-import com.slampvp.factory.util.Constants;
+import com.slampvp.factory.plot.PlotManager;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
+import net.minestom.server.event.player.PlayerBlockBreakEvent;
 import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.LightingChunk;
-import net.minestom.server.instance.block.Block;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Stream;
 
 
 public final class FactoryServer {
     public static final Logger LOGGER = LoggerFactory.getLogger(FactoryServer.class);
+
 
     public static void main(String[] args) {
         MinecraftServer minecraftServer = MinecraftServer.init();
@@ -47,9 +52,15 @@ public final class FactoryServer {
             player.setGameMode(GameMode.CREATIVE);
         });
 
-        MinecraftServer.getSchedulerManager().buildShutdownTask(() -> {
-            LOGGER.debug("storing world");
+        globalEventHandler.addListener(PlayerBlockBreakEvent.class, event -> {
+            Player player = event.getPlayer();
+
+//            event.setCancelled(true);
+            player.sendMessage(Arrays.toString(PlotGenerator.calculatePositionInfo(event.getBlockPosition().blockX(), event.getBlockPosition().blockZ())));
         });
+
+        PlotManager.init();
+
         streamPackage("com.slampvp.factory.command", FactoryCommand.class).forEach(c ->
                 MinecraftServer.getCommandManager().register(c)
         );
@@ -61,7 +72,9 @@ public final class FactoryServer {
         Reflections reflections = new Reflections(packageName);
         Set<Class<? extends T>> subTypes = reflections.getSubTypesOf(clazz);
 
-        return subTypes.stream()
+        return subTypes
+                .stream()
+                .filter(klazz -> !klazz.getPackageName().contains("sub"))
                 .map(subClass -> {
                     try {
                         return clazz.cast(subClass.getDeclaredConstructor().newInstance());
