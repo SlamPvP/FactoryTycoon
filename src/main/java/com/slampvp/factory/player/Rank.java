@@ -1,7 +1,7 @@
 package com.slampvp.factory.player;
 
 public enum Rank {
-    DEFAULT(1);
+    DEFAULT(0);
 
     private final int weight;
 
