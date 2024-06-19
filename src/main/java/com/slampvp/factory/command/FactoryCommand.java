@@ -10,17 +10,17 @@ public abstract class FactoryCommand extends net.minestom.server.command.builder
     public FactoryCommand(@NotNull String name) {
         super(name);
 
-        Command annotation = getClass().getAnnotation(Command.class);
+        Command command = getClass().getAnnotation(Command.class);
 
         setDefaultExecutor((sender, context) -> {
             sender.sendMessage(Locale.Command.INVALID_COMMAND
-                    .replaceText(TextReplacementConfig.builder().match("<usage>").replacement(annotation.usage()).build())
+                    .replaceText(TextReplacementConfig.builder().match("<usage>").replacement(command.usage()).build())
             );
         });
 
         setCondition((commandSender, string) -> {
             if (commandSender instanceof ConsoleSender) {
-                return !annotation.playerOnly();
+                return !command.playerOnly();
             }
 
             // TODO: implement permission checking when we implement ranks
