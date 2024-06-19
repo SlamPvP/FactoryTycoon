@@ -3,7 +3,7 @@ package com.slampvp.factory.plot;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class PlotFlag {
+public final class PlotFlag {
 
     /**
      * Default permissions for each target.

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-public class Plot {
+public final class Plot {
     private final UUID id;
     private final UUID owner;
     private final BlockVec start;

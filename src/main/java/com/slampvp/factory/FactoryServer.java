@@ -1,6 +1,6 @@
 package com.slampvp.factory;
 
-import com.slampvp.factory.plot.PlotManager;
+import com.slampvp.factory.plot.PlotGenerator;
 import com.slampvp.factory.util.Constants;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
@@ -28,7 +28,7 @@ public final class FactoryServer {
         InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
 
         instanceContainer.setChunkSupplier(LightingChunk::new);
-        instanceContainer.setGenerator(PlotManager.getGenerator());
+        instanceContainer.setGenerator(PlotGenerator.getGenerator());
 
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
 
