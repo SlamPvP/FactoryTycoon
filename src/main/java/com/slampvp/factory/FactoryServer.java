@@ -18,13 +18,11 @@ import org.slf4j.LoggerFactory;
 
 
 public final class FactoryServer {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(FactoryServer.class);
 
     private static final int HEIGHT = 20;
     private static final int PLOT_SIZE = 20;   // This needs to be an even number.
     private static final int ROAD_WIDTH = 3;
-
 
     public static void main(String[] args) {
         MinecraftServer minecraftServer = MinecraftServer.init();
@@ -93,5 +91,4 @@ public final class FactoryServer {
 
         return Block.GRASS_BLOCK;
     }
-
 }
