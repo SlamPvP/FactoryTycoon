@@ -21,7 +21,6 @@ import java.util.stream.Stream;
 
 
 public final class FactoryServer {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(FactoryServer.class);
 
     public static void main(String[] args) {
