@@ -32,7 +32,7 @@ public record Plot(
         int bitmap = this.flags.getOrDefault(target, 0);
 
         return Stream.of(PlotFlag.Flag.values())
-                .filter(flag -> (bitmap & (int) Math.pow(2, flag.getBit())) != 0)
+                .filter(flag -> (bitmap & (1 << flag.getBit())) != 0)
                 .collect(Collectors.toCollection(() -> EnumSet.noneOf(PlotFlag.Flag.class)));
     }
 }
