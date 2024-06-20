@@ -42,6 +42,9 @@ public final class Locale {
         public static final TextComponent NO_PLOT_OWNER = PREFIX.append(
                 Component.text("You need to be the owner of this plot!").color(NamedTextColor.RED)
         );
+        public static final TextComponent INVALID_WARP = PREFIX.append(
+                Component.text("This warp does not exist!").color(NamedTextColor.RED)
+        );
 
         public static final TextComponent CLAIMED = PREFIX.append(
                 Component.text("You've successfully claimed this plot!").color(NamedTextColor.GREEN)
@@ -52,8 +55,17 @@ public final class Locale {
         public static final TextComponent TELEPORTED = PREFIX.append(
                 Component.text("You've successfully teleported to your plot!").color(NamedTextColor.GREEN)
         );
+        public static final TextComponent WARPED = PREFIX.append(
+                Component.text("You've successfully warped to warp <warp>!").color(NamedTextColor.GREEN)
+        );
         public static final TextComponent SET_SPAWN = PREFIX.append(
                 Component.text("You've successfully set the spawn of this plot to your location!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent ADDED_WARP = PREFIX.append(
+                Component.text("You've successfully added warp <warp> to your plot!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent REMOVED_WARP = PREFIX.append(
+                Component.text("You've successfully removed warp <warp> from your plot!").color(NamedTextColor.GREEN)
         );
     }
 }

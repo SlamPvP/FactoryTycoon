@@ -1,7 +1,6 @@
 package com.slampvp.factory.plot;
 
 import com.slampvp.factory.common.Constants;
-import net.minestom.server.coordinate.BlockVec;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
@@ -17,10 +16,10 @@ public final class Plot {
     private final UUID owner;
     private final Vec start;
     private final Vec end;
-    private Pos spawn;
     private final Map<String, Pos> warps;
     private final Map<UUID, PlotFlag.Target> members;
     private final Map<PlotFlag.Target, Integer> flags;
+    private Pos spawn;
 
     public Plot(UUID id, UUID owner, Vec start, Vec end, Pos spawn, Map<String, Pos> warps, Map<UUID, PlotFlag.Target> members, Map<PlotFlag.Target, Integer> flags) {
         this.id = id;
@@ -52,6 +51,18 @@ public final class Plot {
         if (owner.equals(uuid)) return true;
 
         return members.containsKey(uuid);
+    }
+
+    public void addWarp(String name, Pos position) {
+        this.warps.put(name, position);
+    }
+
+    public void removeWarp(String name) {
+        this.warps.remove(name);
+    }
+
+    public Optional<Pos> getWarp(String name) {
+        return Optional.ofNullable(this.warps.get(name));
     }
 
     public boolean contains(Point point) {
@@ -89,15 +100,15 @@ public final class Plot {
     }
 
     public Map<String, Pos> getWarps() {
-        return warps;
+        return new HashMap<>(warps);
     }
 
     public Map<UUID, PlotFlag.Target> getMembers() {
-        return members;
+        return new HashMap<>(members);
     }
 
     public Map<PlotFlag.Target, Integer> getFlags() {
-        return flags;
+        return new EnumMap<>(flags);
     }
 
     public Set<PlotFlag.Flag> getFlags(PlotFlag.Target target) {

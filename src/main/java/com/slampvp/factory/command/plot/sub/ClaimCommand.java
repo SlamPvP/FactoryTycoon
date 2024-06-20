@@ -27,7 +27,10 @@ public class ClaimCommand extends FactoryCommand {
             switch (claimResult) {
                 case NOT_IN_PLOT -> sender.sendMessage(Locale.Plot.NOT_IN_PLOT);
                 case ALREADY_CLAIMED -> sender.sendMessage(Locale.Plot.ALREADY_CLAIMED);
-                case SUCCESS -> sender.sendMessage(Locale.Plot.CLAIMED);
+                case SUCCESS -> {
+                    PlotManager.getInstance().getPlot(player.getPosition()).ifPresent(plot -> player.teleport(plot.getSpawn()));
+                    sender.sendMessage(Locale.Plot.CLAIMED);
+                }
             }
         });
     }
