@@ -4,6 +4,7 @@ import com.slampvp.factory.common.Constants;
 import net.minestom.server.coordinate.BlockVec;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Player;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.batch.AbsoluteBlockBatch;
@@ -99,13 +100,13 @@ public final class PlotGenerator {
         });
     }
 
-    public static BlockVec[] getDimensions(Pos position) {
+    public static Vec[] getDimensions(Pos position) {
         int plotCenterX = calculatePlotCenter(position.blockX());
         int plotCenterZ = calculatePlotCenter(position.blockZ());
 
-        return new BlockVec[]{
-                new BlockVec(plotCenterX - (Constants.Plot.PLOT_SIZE / 2), 0, plotCenterZ - (Constants.Plot.PLOT_SIZE / 2)),
-                new BlockVec(plotCenterX + (Constants.Plot.PLOT_SIZE / 2), Constants.Plot.PLOT_HEIGHT, plotCenterZ + (Constants.Plot.PLOT_SIZE / 2))
+        return new Vec[]{
+                new Vec(plotCenterX - (Constants.Plot.PLOT_SIZE / 2.0), 0, plotCenterZ - (Constants.Plot.PLOT_SIZE / 2.0)),
+                new Vec(plotCenterX + (Constants.Plot.PLOT_SIZE / 2.0), Constants.Plot.PLOT_HEIGHT, plotCenterZ + (Constants.Plot.PLOT_SIZE / 2.0))
         };
     }
 

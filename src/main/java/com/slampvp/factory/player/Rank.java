@@ -11,7 +11,8 @@ public enum Rank {
     /**
      * Default rank with the lowest weight.
      */
-    DEFAULT(0);
+    DEFAULT(0),
+    ADMIN(10);
 
     private final int weight;
 

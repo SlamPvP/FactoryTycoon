@@ -1,15 +1,15 @@
 package com.slampvp.factory.plot;
 
 import com.slampvp.factory.FactoryServer;
-import com.slampvp.factory.command.plot.sub.UnClaimCommand;
 import net.minestom.server.coordinate.BlockVec;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Player;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 public class PlotManager {
@@ -41,8 +41,11 @@ public class PlotManager {
         return null;
     }
 
-    public Set<Plot> getPlots(Player player) {
-        return null;
+    public List<Plot> getPlots(Player player) {
+        return plots
+                .stream()
+                .filter(plot -> plot.getOwner().equals(player.getUuid()))
+                .toList();
     }
 
     public Optional<Plot> getPlot(Point point) {
@@ -72,13 +75,13 @@ public class PlotManager {
             return ClaimResult.ALREADY_CLAIMED;
         }
 
-        BlockVec[] dimensions = PlotGenerator.getDimensions(position);
+        Vec[] dimensions = PlotGenerator.getDimensions(position);
 
         Plot plot = new Plot(
                 UUID.randomUUID(),
                 player.getUuid(),
-                new BlockVec(dimensions[0]),
-                new BlockVec(dimensions[1])
+                Vec.fromPoint(dimensions[0]),
+                Vec.fromPoint(dimensions[1])
         );
 
         this.plots.add(plot);

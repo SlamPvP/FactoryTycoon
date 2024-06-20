@@ -1,8 +1,10 @@
 package com.slampvp.factory.plot;
 
+import com.slampvp.factory.common.Constants;
 import net.minestom.server.coordinate.BlockVec;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Player;
 
 import java.util.*;
@@ -12,14 +14,14 @@ import java.util.stream.Stream;
 public final class Plot {
     private final UUID id;
     private final UUID owner;
-    private final BlockVec start;
-    private final BlockVec end;
-    private final Pos spawn;
+    private final Vec start;
+    private final Vec end;
+    private Pos spawn;
     private final Map<String, Pos> warps;
     private final Map<UUID, PlotFlag.Target> members;
     private final Map<PlotFlag.Target, Integer> flags;
 
-    public Plot(UUID id, UUID owner, BlockVec start, BlockVec end, Pos spawn, Map<String, Pos> warps, Map<UUID, PlotFlag.Target> members, Map<PlotFlag.Target, Integer> flags) {
+    public Plot(UUID id, UUID owner, Vec start, Vec end, Pos spawn, Map<String, Pos> warps, Map<UUID, PlotFlag.Target> members, Map<PlotFlag.Target, Integer> flags) {
         this.id = id;
         this.owner = owner;
         this.start = start;
@@ -30,8 +32,9 @@ public final class Plot {
         this.flags = flags;
     }
 
-    public Plot(UUID id, UUID owner, BlockVec start, BlockVec end) {
-        this(id, owner, start, end, end.sub(end).asVec().asPosition(), new HashMap<>(), new HashMap<>(), new EnumMap<>(PlotFlag.Target.class));
+    public Plot(UUID id, UUID owner, Vec start, Vec end) {
+        this(id, owner, start, end, null, new HashMap<>(), new HashMap<>(), new EnumMap<>(PlotFlag.Target.class));
+        this.spawn = end.add(start).div(2).add(0.5).withY(Constants.Plot.HEIGHT + 1).asPosition();
         this.flags.putAll(PlotFlag.DEFAULT_PERMISSIONS);
     }
 
@@ -68,11 +71,11 @@ public final class Plot {
         return owner;
     }
 
-    public BlockVec getStart() {
+    public Vec getStart() {
         return start;
     }
 
-    public BlockVec getEnd() {
+    public Vec getEnd() {
         return end;
     }
 

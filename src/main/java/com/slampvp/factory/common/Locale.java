@@ -36,12 +36,18 @@ public final class Locale {
         public static final TextComponent NOT_CLAIMED = PREFIX.append(
                 Component.text("This plot is not claimed!").color(NamedTextColor.RED)
         );
+        public static final TextComponent NO_PLOT = PREFIX.append(
+                Component.text("You don't have a plot!").color(NamedTextColor.RED)
+        );
 
         public static final TextComponent CLAIMED = PREFIX.append(
                 Component.text("You've successfully claimed this plot!").color(NamedTextColor.GREEN)
         );
         public static final TextComponent UNCLAIMED = PREFIX.append(
                 Component.text("You've successfully unclaimed this plot!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent TELEPORTED = PREFIX.append(
+                Component.text("You've successfully teleported to your plot!").color(NamedTextColor.GREEN)
         );
     }
 }

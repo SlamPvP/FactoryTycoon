@@ -7,6 +7,7 @@ import com.slampvp.factory.plot.Plot;
 import com.slampvp.factory.plot.PlotFlag;
 import net.minestom.server.coordinate.BlockVec;
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.coordinate.Vec;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -22,7 +23,7 @@ public class PlotTest {
         UUID id = UUID.randomUUID();
         UUID owner = UUID.randomUUID();
 
-        Plot plot = new Plot(id, owner, new BlockVec(0, 0, 0), new BlockVec(1, 1, 1),
+        Plot plot = new Plot(id, owner, new Vec(0, 0, 0), new Vec(1, 1, 1),
                 new Pos(1, 1, 1),
                 Map.of(), Map.of(), Map.of(PlotFlag.Target.MEMBER, 3, PlotFlag.Target.PUBLIC, 4));
 
@@ -73,7 +74,7 @@ public class PlotTest {
 
     @Test
     public void testFlags() {
-        Plot plot = new Plot(UUID.randomUUID(), UUID.randomUUID(), new BlockVec(0, 0, 0), new BlockVec(1, 1, 1));
+        Plot plot = new Plot(UUID.randomUUID(), UUID.randomUUID(), new Vec(0, 0, 0), new Vec(1, 1, 1));
 
         assertEquals(Set.of(PlotFlag.Flag.BUILD, PlotFlag.Flag.BREAK), plot.getFlags(PlotFlag.Target.MEMBER));
         assertEquals(new HashSet<>(), plot.getFlags(PlotFlag.Target.PUBLIC));
