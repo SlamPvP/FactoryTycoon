@@ -1,6 +1,7 @@
 package com.slampvp.factory.plot;
 
 import com.slampvp.factory.FactoryServer;
+import com.slampvp.factory.command.plot.sub.UnClaimCommand;
 import net.minestom.server.coordinate.BlockVec;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
@@ -85,5 +86,32 @@ public class PlotManager {
         PlotGenerator.claimPlot(player);
 
         return ClaimResult.SUCCESS;
+    }
+
+    /**
+     * Tries to un-claim the plot at the current location of the player.
+     * If there is no valid plot at the location or the plot is not claimed, returns false.
+     *
+     * @param player the player who executed the un-claim
+     * @return whether the un-claim was successful
+     */
+    public UnClaimResult unClaimPlot(Player player) {
+        Pos position = player.getPosition();
+
+        if (!PlotGenerator.isInPlot(position)) {
+            return UnClaimResult.NOT_IN_PLOT;
+        }
+
+        Optional<Plot> optionalPlot = getPlot(player.getPosition());
+
+        if (optionalPlot.isEmpty()) {
+            return UnClaimResult.NOT_CLAIMED;
+        }
+
+        this.plots.remove(optionalPlot.get());
+
+        PlotGenerator.unClaimPlot(player);
+
+        return UnClaimResult.SUCCESS;
     }
 }

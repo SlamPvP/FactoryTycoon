@@ -6,6 +6,7 @@ import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
 import net.minestom.server.instance.Instance;
+import net.minestom.server.instance.batch.AbsoluteBlockBatch;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.instance.generator.Generator;
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +38,15 @@ public final class PlotGenerator {
     }
 
     public static void claimPlot(Player player) {
+        setPlotBorderAt(player, Block.GREEN_CONCRETE);
+    }
+
+    public static void unClaimPlot(Player player) {
+        clearPlot(player);
+        setPlotBorderAt(player, Block.RED_CONCRETE);
+    }
+
+    private static void setPlotBorderAt(Player player, Block block) {
         Pos position = player.getPosition();
         Instance instance = player.getInstance();
 
@@ -46,17 +56,62 @@ public final class PlotGenerator {
         int plotStartX = centerX - Constants.Plot.PLOT_SIZE / 2;
         int plotStartZ = centerZ - Constants.Plot.PLOT_SIZE / 2;
 
+        AbsoluteBlockBatch absoluteBlockBatch = new AbsoluteBlockBatch();
+
         for (int x = 0; x <= Constants.Plot.PLOT_SIZE; x++) {
             for (int z = 0; z <= Constants.Plot.PLOT_SIZE; z++) {
-                if (!isBorder(x, z)) continue;
+                if (!isBorder(x, z)) {
+                    continue;
+                }
 
-                instance.setBlock(new BlockVec(x + plotStartX, Constants.Plot.HEIGHT, z + plotStartZ), Block.GREEN_CONCRETE);
+                absoluteBlockBatch.setBlock(new BlockVec(x + plotStartX, Constants.Plot.HEIGHT, z + plotStartZ), block);
             }
         }
+
+        absoluteBlockBatch.apply(instance, () -> {
+        });
+    }
+
+    public static void clearPlot(Player player) {
+        Pos position = player.getPosition();
+        Instance instance = player.getInstance();
+
+        int centerX = calculatePlotCenter(position.blockX());
+        int centerZ = calculatePlotCenter(position.blockZ());
+
+        int plotStartX = centerX - Constants.Plot.PLOT_SIZE / 2;
+        int plotStartZ = centerZ - Constants.Plot.PLOT_SIZE / 2;
+
+        AbsoluteBlockBatch absoluteBlockBatch = new AbsoluteBlockBatch();
+
+        for (int x = plotStartX; x < plotStartX + Constants.Plot.PLOT_SIZE; x++) {
+            for (int z = plotStartZ; z < plotStartZ + Constants.Plot.PLOT_SIZE; z++) {
+                Block block = getBlockForPoint(x, z);
+                absoluteBlockBatch.setBlock(new BlockVec(x, Constants.Plot.HEIGHT, z), block);
+
+                for (int y = Constants.Plot.HEIGHT + 1; y <= Constants.Plot.PLOT_HEIGHT; y++) {
+                    absoluteBlockBatch.setBlock(new BlockVec(x, y, z), Block.AIR);
+                }
+            }
+        }
+
+        absoluteBlockBatch.apply(instance, () -> {
+        });
+    }
+
+    public static BlockVec[] getDimensions(Pos position) {
+        int plotCenterX = calculatePlotCenter(position.blockX());
+        int plotCenterZ = calculatePlotCenter(position.blockZ());
+
+        return new BlockVec[]{
+                new BlockVec(plotCenterX - (Constants.Plot.PLOT_SIZE / 2), 0, plotCenterZ - (Constants.Plot.PLOT_SIZE / 2)),
+                new BlockVec(plotCenterX + (Constants.Plot.PLOT_SIZE / 2), Constants.Plot.PLOT_HEIGHT, plotCenterZ + (Constants.Plot.PLOT_SIZE / 2))
+        };
     }
 
     private static int calculatePlotCenter(int coordinate) {
         int plotWithBorderSize = Constants.Plot.PLOT_SIZE + Constants.Plot.ROAD_WIDTH;
+
         return Math.floorDiv(coordinate + plotWithBorderSize / 2, plotWithBorderSize) * plotWithBorderSize;
     }
 
@@ -84,7 +139,9 @@ public final class PlotGenerator {
     }
 
     private static boolean isBorder(int x, int z) {
-        if (x < 0 || z < 0) return false;
+        if (x < 0 || z < 0) {
+            return false;
+        }
 
         return ((x % (Constants.Plot.PLOT_SIZE)) == 0 && (z % (Constants.Plot.PLOT_SIZE)) == 0)
                 || ((x % (Constants.Plot.PLOT_SIZE)) == 0 && (z < Constants.Plot.PLOT_SIZE))
@@ -101,15 +158,5 @@ public final class PlotGenerator {
         int posZWithinPlot = z - plotCenterZ + (Constants.Plot.PLOT_SIZE / 2);
 
         return new int[]{posXWithinPlot, posZWithinPlot};
-    }
-
-    public static BlockVec[] getDimensions(Pos position) {
-        int plotCenterX = calculatePlotCenter(position.blockX());
-        int plotCenterZ = calculatePlotCenter(position.blockZ());
-
-        return new BlockVec[]{
-                new BlockVec(plotCenterX - (Constants.Plot.PLOT_SIZE / 2), 0, plotCenterZ - (Constants.Plot.PLOT_SIZE / 2)),
-                new BlockVec(plotCenterX + (Constants.Plot.PLOT_SIZE / 2), Constants.Plot.PLOT_HEIGHT, plotCenterZ + (Constants.Plot.PLOT_SIZE / 2))
-        };
     }
 }

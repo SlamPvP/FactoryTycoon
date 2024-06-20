@@ -33,9 +33,15 @@ public final class Locale {
         public static final TextComponent ALREADY_CLAIMED = PREFIX.append(
                 Component.text("This plot is already claimed!").color(NamedTextColor.RED)
         );
+        public static final TextComponent NOT_CLAIMED = PREFIX.append(
+                Component.text("This plot is not claimed!").color(NamedTextColor.RED)
+        );
 
         public static final TextComponent CLAIMED = PREFIX.append(
                 Component.text("You've successfully claimed this plot!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent UNCLAIMED = PREFIX.append(
+                Component.text("You've successfully unclaimed this plot!").color(NamedTextColor.GREEN)
         );
     }
 }
