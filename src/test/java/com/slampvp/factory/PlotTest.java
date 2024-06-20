@@ -24,8 +24,7 @@ public class PlotTest {
 
         Plot plot = new Plot(id, owner, new BlockVec(0, 0, 0), new BlockVec(1, 1, 1),
                 new Pos(1, 1, 1),
-                Map.of(),
-                Set.of(), Map.of(PlotFlag.Target.MEMBER, 3, PlotFlag.Target.PUBLIC, 4));
+                Map.of(), Map.of(), Map.of(PlotFlag.Target.MEMBER, 3, PlotFlag.Target.PUBLIC, 4));
 
         String json = new Gson().toJson(plot);
 
@@ -36,7 +35,7 @@ public class PlotTest {
                 "\"end\":{\"x\":1.0,\"y\":1.0,\"z\":1.0}," +
                 "\"spawn\":{\"x\":1.0,\"y\":1.0,\"z\":1.0,\"yaw\":0.0,\"pitch\":0.0}," +
                 "\"warps\":{}," +
-                "\"members\":[]," +
+                "\"members\":{}," +
                 "\"flags\":{\"MEMBER\":3,\"PUBLIC\":4}" +
                 "}";
 
@@ -57,7 +56,7 @@ public class PlotTest {
                 "\"start\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}," +
                 "\"end\":{\"x\":1.0,\"y\":1.0,\"z\":1.0}," +
                 "\"spawn\":{\"x\":1.0,\"y\":1.0,\"z\":1.0,\"yaw\":0.0,\"pitch\":0.0}," +
-                "\"members\":[]," +
+                "\"members\":{}," +
                 "\"flags\":{\"MEMBER\":3,\"PUBLIC\":4}" +
                 "}";
 
@@ -68,7 +67,7 @@ public class PlotTest {
         assertEquals(new BlockVec(0, 0, 0), plot.getStart());
         assertEquals(new BlockVec(1, 1, 1), plot.getEnd());
         assertEquals(new Pos(1, 1, 1, 0, 0), plot.getSpawn());
-        assertEquals(Set.of(), plot.getMembers());
+        assertEquals(Map.of(), plot.getMembers());
         assertEquals(Map.of(PlotFlag.Target.MEMBER, 3, PlotFlag.Target.PUBLIC, 4), plot.getFlags());
     }
 

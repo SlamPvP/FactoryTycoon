@@ -30,8 +30,11 @@ public final class Locale {
         public static final TextComponent NOT_IN_PLOT = PREFIX.append(
                 Component.text("You need to be in a plot to execute this command!").color(NamedTextColor.RED)
         );
+        public static final TextComponent ALREADY_CLAIMED = PREFIX.append(
+                Component.text("This plot is already claimed!").color(NamedTextColor.RED)
+        );
 
-        public static final TextComponent CLAIM = PREFIX.append(
+        public static final TextComponent CLAIMED = PREFIX.append(
                 Component.text("You've successfully claimed this plot!").color(NamedTextColor.GREEN)
         );
     }

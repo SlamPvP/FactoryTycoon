@@ -1,12 +1,13 @@
 package com.slampvp.factory.plot;
 
 import net.minestom.server.coordinate.BlockVec;
+import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.entity.Player;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 
 public final class Plot {
     private final UUID id;
@@ -15,10 +16,10 @@ public final class Plot {
     private final BlockVec end;
     private final Pos spawn;
     private final Map<String, Pos> warps;
-    private final Set<UUID> members;
+    private final Map<UUID, PlotFlag.Target> members;
     private final Map<PlotFlag.Target, Integer> flags;
 
-    public Plot(UUID id, UUID owner, BlockVec start, BlockVec end, Pos spawn, Map<String, Pos> warps, Set<UUID> members, Map<PlotFlag.Target, Integer> flags) {
+    public Plot(UUID id, UUID owner, BlockVec start, BlockVec end, Pos spawn, Map<String, Pos> warps, Map<UUID, PlotFlag.Target> members, Map<PlotFlag.Target, Integer> flags) {
         this.id = id;
         this.owner = owner;
         this.start = start;
@@ -30,7 +31,7 @@ public final class Plot {
     }
 
     public Plot(UUID id, UUID owner, BlockVec start, BlockVec end) {
-        this(id, owner, start, end, null, new HashMap<>(), new HashSet<>(), new EnumMap<>(PlotFlag.Target.class));
+        this(id, owner, start, end, end.sub(end).asVec().asPosition(), new HashMap<>(), new HashMap<>(), new EnumMap<>(PlotFlag.Target.class));
         this.flags.putAll(PlotFlag.DEFAULT_PERMISSIONS);
     }
 
@@ -39,6 +40,20 @@ public final class Plot {
         int newFlags = currentFlags ^ ((-(enabled ? 1 : 0) ^ currentFlags) & (1 << flag.getBit()));
 
         this.flags.put(target, newFlags);
+    }
+
+    public boolean isAdded(Player player) {
+        UUID uuid = player.getUuid();
+
+        if (owner.equals(uuid)) return true;
+
+        return members.containsKey(uuid);
+    }
+
+    public boolean contains(Point point) {
+        return point.blockX() >= start.blockX() && point.blockX() <= end.blockX() &&
+                point.blockY() >= start.blockY() && point.blockY() <= end.blockY() &&
+                point.blockZ() >= start.blockZ() && point.blockZ() <= end.blockZ();
     }
 
     public int getLevel() {
@@ -69,7 +84,7 @@ public final class Plot {
         return warps;
     }
 
-    public Set<UUID> getMembers() {
+    public Map<UUID, PlotFlag.Target> getMembers() {
         return members;
     }
 

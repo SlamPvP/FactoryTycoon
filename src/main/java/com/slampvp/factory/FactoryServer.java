@@ -2,7 +2,6 @@ package com.slampvp.factory;
 
 import com.slampvp.factory.command.FactoryCommand;
 import com.slampvp.factory.common.Constants;
-import com.slampvp.factory.common.Locale;
 import com.slampvp.factory.plot.PlotGenerator;
 import com.slampvp.factory.plot.PlotManager;
 import net.minestom.server.MinecraftServer;
@@ -16,6 +15,7 @@ import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.LightingChunk;
+import net.minestom.server.instance.anvil.AnvilLoader;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,6 @@ import java.util.stream.Stream;
 public final class FactoryServer {
     public static final Logger LOGGER = LoggerFactory.getLogger(FactoryServer.class);
 
-
     public static void main(String[] args) {
         MinecraftServer minecraftServer = MinecraftServer.init();
 
@@ -40,6 +39,7 @@ public final class FactoryServer {
 
         instanceContainer.setChunkSupplier(LightingChunk::new);
         instanceContainer.setGenerator(PlotGenerator.getGenerator());
+        instanceContainer.setChunkLoader(new AnvilLoader("worlds/world"));
 
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
 
@@ -48,18 +48,15 @@ public final class FactoryServer {
 
             event.setSpawningInstance(instanceContainer);
 
-            player.setRespawnPoint(new Pos(-0.5, Constants.Plot.HEIGHT + 1, -0.5));
+            player.setRespawnPoint(new Pos(0.5, Constants.Plot.HEIGHT + 1, 0.5));
             player.setGameMode(GameMode.CREATIVE);
         });
 
-        globalEventHandler.addListener(PlayerBlockBreakEvent.class, event -> {
-            Player player = event.getPlayer();
+//        MinecraftServer.getSchedulerManager().buildShutdownTask(() -> {
+//            instanceContainer.saveChunksToStorage().thenAccept(t -> LOGGER.info("Saved world."));
+//        });
 
-//            event.setCancelled(true);
-            player.sendMessage(Arrays.toString(PlotGenerator.calculatePositionInfo(event.getBlockPosition().blockX(), event.getBlockPosition().blockZ())));
-        });
-
-        PlotManager.init();
+        PlotManager.getInstance().init();
 
         streamPackage("com.slampvp.factory.command", FactoryCommand.class).forEach(c ->
                 MinecraftServer.getCommandManager().register(c)
