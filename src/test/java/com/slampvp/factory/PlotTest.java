@@ -65,8 +65,8 @@ public class PlotTest {
 
         assertEquals(id, plot.getId());
         assertEquals(owner, plot.getOwner());
-        assertEquals(new BlockVec(0, 0, 0), plot.getStart());
-        assertEquals(new BlockVec(1, 1, 1), plot.getEnd());
+        assertEquals(new Vec(0, 0, 0), plot.getStart());
+        assertEquals(new Vec(1, 1, 1), plot.getEnd());
         assertEquals(new Pos(1, 1, 1, 0, 0), plot.getSpawn());
         assertEquals(Map.of(), plot.getMembers());
         assertEquals(Map.of(PlotFlag.Target.MEMBER, 3, PlotFlag.Target.PUBLIC, 4), plot.getFlags());

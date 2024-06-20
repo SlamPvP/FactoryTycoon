@@ -6,6 +6,7 @@ import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -81,6 +82,10 @@ public final class Plot {
 
     public Pos getSpawn() {
         return spawn;
+    }
+
+    public void setSpawn(@NotNull Pos spawn) {
+        this.spawn = spawn;
     }
 
     public Map<String, Pos> getWarps() {

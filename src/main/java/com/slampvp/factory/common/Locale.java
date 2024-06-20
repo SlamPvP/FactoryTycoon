@@ -39,6 +39,9 @@ public final class Locale {
         public static final TextComponent NO_PLOT = PREFIX.append(
                 Component.text("You don't have a plot!").color(NamedTextColor.RED)
         );
+        public static final TextComponent NO_PLOT_OWNER = PREFIX.append(
+                Component.text("You need to be the owner of this plot!").color(NamedTextColor.RED)
+        );
 
         public static final TextComponent CLAIMED = PREFIX.append(
                 Component.text("You've successfully claimed this plot!").color(NamedTextColor.GREEN)
@@ -48,6 +51,9 @@ public final class Locale {
         );
         public static final TextComponent TELEPORTED = PREFIX.append(
                 Component.text("You've successfully teleported to your plot!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent SET_SPAWN = PREFIX.append(
+                Component.text("You've successfully set the spawn of this plot to your location!").color(NamedTextColor.GREEN)
         );
     }
 }
