@@ -1,15 +1,24 @@
 package com.slampvp.factory.command;
 
-
 import com.slampvp.factory.common.Locale;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.minestom.server.command.ConsoleSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 public abstract class FactoryCommand extends net.minestom.server.command.builder.Command {
     public FactoryCommand(@NotNull String name) {
         super(name);
+        configure();
+    }
 
+    public FactoryCommand(@NotNull String... names) {
+        super(names[0], Arrays.copyOfRange(names, 1, names.length));
+        configure();
+    }
+
+    private void configure() {
         Command command = getClass().getAnnotation(Command.class);
 
         setDefaultExecutor((sender, context) -> {
