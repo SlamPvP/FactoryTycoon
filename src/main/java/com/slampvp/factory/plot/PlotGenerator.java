@@ -12,6 +12,8 @@ import net.minestom.server.instance.block.Block;
 import net.minestom.server.instance.generator.Generator;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.event.WindowStateListener;
+
 public final class PlotGenerator {
     public static @NotNull Generator getGenerator() {
         return unit -> {
@@ -38,19 +40,16 @@ public final class PlotGenerator {
         return positionInfo[0] >= 0 && positionInfo[0] < Constants.Plot.PLOT_SIZE && positionInfo[1] >= 0 && positionInfo[1] < Constants.Plot.PLOT_SIZE;
     }
 
-    public static void claimPlot(Player player) {
-        setPlotBorderAt(player, Block.GREEN_CONCRETE);
+    public static void claimPlot(Pos position, Instance instance) {
+        setPlotBorderAt(position, instance, Block.GREEN_CONCRETE);
     }
 
-    public static void unClaimPlot(Player player) {
-        clearPlot(player);
-        setPlotBorderAt(player, Block.RED_CONCRETE);
+    public static void unClaimPlot(Pos position, Instance instance) {
+        clearPlot(position, instance);
+        setPlotBorderAt(position, instance, Block.RED_CONCRETE);
     }
 
-    private static void setPlotBorderAt(Player player, Block block) {
-        Pos position = player.getPosition();
-        Instance instance = player.getInstance();
-
+    private static void setPlotBorderAt(Pos position, Instance instance, Block block) {
         int centerX = calculatePlotCenter(position.blockX());
         int centerZ = calculatePlotCenter(position.blockZ());
 
@@ -73,10 +72,7 @@ public final class PlotGenerator {
         });
     }
 
-    public static void clearPlot(Player player) {
-        Pos position = player.getPosition();
-        Instance instance = player.getInstance();
-
+    public static void clearPlot(Pos position, Instance instance) {
         int centerX = calculatePlotCenter(position.blockX());
         int centerZ = calculatePlotCenter(position.blockZ());
 
@@ -85,8 +81,8 @@ public final class PlotGenerator {
 
         AbsoluteBlockBatch absoluteBlockBatch = new AbsoluteBlockBatch();
 
-        for (int x = plotStartX; x < plotStartX + Constants.Plot.PLOT_SIZE; x++) {
-            for (int z = plotStartZ; z < plotStartZ + Constants.Plot.PLOT_SIZE; z++) {
+        for (int x = plotStartX + 1; x < plotStartX + Constants.Plot.PLOT_SIZE; x++) {
+            for (int z = plotStartZ + 1; z < plotStartZ + Constants.Plot.PLOT_SIZE; z++) {
                 Block block = getBlockForPoint(x, z);
                 absoluteBlockBatch.setBlock(new BlockVec(x, Constants.Plot.HEIGHT, z), block);
 

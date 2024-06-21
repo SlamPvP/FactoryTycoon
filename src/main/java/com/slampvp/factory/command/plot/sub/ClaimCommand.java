@@ -12,7 +12,7 @@ import net.minestom.server.entity.Player;
 
 import java.util.Optional;
 
-@Command(description = "Claim a new plot.", usage = "/plot claim", minimumRank = Rank.DEFAULT, playerOnly = true)
+@Command(description = "Claim a new plot at your location.", usage = "/plot claim", minimumRank = Rank.DEFAULT, playerOnly = true)
 public class ClaimCommand extends FactoryCommand {
     public ClaimCommand() {
         super("claim");

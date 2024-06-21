@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class Plot {
-    private final UUID id;
+    private final PlotId id;
     private final UUID owner;
     private final Vec start;
     private final Vec end;
@@ -21,7 +21,7 @@ public final class Plot {
     private final Map<PlotFlag.Target, Integer> flags;
     private Pos spawn;
 
-    public Plot(UUID id, UUID owner, Vec start, Vec end, Pos spawn, Map<String, Pos> warps, Map<UUID, PlotFlag.Target> members, Map<PlotFlag.Target, Integer> flags) {
+    public Plot(PlotId id, UUID owner, Vec start, Vec end, Pos spawn, Map<String, Pos> warps, Map<UUID, PlotFlag.Target> members, Map<PlotFlag.Target, Integer> flags) {
         this.id = id;
         this.owner = owner;
         this.start = start;
@@ -32,7 +32,7 @@ public final class Plot {
         this.flags = flags;
     }
 
-    public Plot(UUID id, UUID owner, Vec start, Vec end) {
+    public Plot(PlotId id, UUID owner, Vec start, Vec end) {
         this(id, owner, start, end, null, new HashMap<>(), new HashMap<>(), new EnumMap<>(PlotFlag.Target.class));
         this.spawn = end.add(start).div(2).add(0.5).withY(Constants.Plot.HEIGHT + 1).asPosition();
         this.flags.putAll(PlotFlag.DEFAULT_PERMISSIONS);
@@ -75,7 +75,7 @@ public final class Plot {
         return 1;
     }
 
-    public UUID getId() {
+    public PlotId getId() {
         return id;
     }
 

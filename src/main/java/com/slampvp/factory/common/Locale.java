@@ -67,5 +67,8 @@ public final class Locale {
         public static final TextComponent REMOVED_WARP = PREFIX.append(
                 Component.text("You've successfully removed warp <warp> from your plot!").color(NamedTextColor.GREEN)
         );
+        public static final TextComponent CLEARED_PLOT = PREFIX.append(
+                Component.text("You've successfully cleared your plot!").color(NamedTextColor.GREEN)
+        );
     }
 }

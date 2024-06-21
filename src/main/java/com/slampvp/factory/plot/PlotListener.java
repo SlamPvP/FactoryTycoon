@@ -1,5 +1,6 @@
 package com.slampvp.factory.plot;
 
+import com.slampvp.factory.common.Constants;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.BlockVec;
 import net.minestom.server.entity.Player;
@@ -62,6 +63,9 @@ public class PlotListener {
                 return;
             }
 
+            if (position.blockY() > Constants.Plot.PLOT_HEIGHT) {
+                event.setCancelled(true);
+            }
         });
     }
 }

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.slampvp.factory.plot.Plot;
 import com.slampvp.factory.plot.PlotFlag;
+import com.slampvp.factory.plot.PlotId;
 import net.minestom.server.coordinate.BlockVec;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
@@ -20,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 public class PlotTest {
     @Test
     public void testSerialize() {
-        UUID id = UUID.randomUUID();
+        PlotId id = new PlotId(1,1);
         UUID owner = UUID.randomUUID();
 
         Plot plot = new Plot(id, owner, new Vec(0, 0, 0), new Vec(1, 1, 1),
@@ -30,7 +31,7 @@ public class PlotTest {
         String json = new Gson().toJson(plot);
 
         String expected = "{" +
-                "\"id\":\"" + id + "\"," +
+                "\"id\":{\"x\":1,\"z\":1}," +
                 "\"owner\":\"" + owner + "\"," +
                 "\"start\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}," +
                 "\"end\":{\"x\":1.0,\"y\":1.0,\"z\":1.0}," +
@@ -48,11 +49,11 @@ public class PlotTest {
 
     @Test
     public void testDeserialize() {
-        UUID id = UUID.randomUUID();
+        PlotId id = new PlotId(1,1);
         UUID owner = UUID.randomUUID();
 
         String json = "{" +
-                "\"id\":\"" + id + "\"," +
+                "\"id\":{\"x\":1,\"z\":1}," +
                 "\"owner\":\"" + owner + "\"," +
                 "\"start\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}," +
                 "\"end\":{\"x\":1.0,\"y\":1.0,\"z\":1.0}," +
@@ -74,7 +75,7 @@ public class PlotTest {
 
     @Test
     public void testFlags() {
-        Plot plot = new Plot(UUID.randomUUID(), UUID.randomUUID(), new Vec(0, 0, 0), new Vec(1, 1, 1));
+        Plot plot = new Plot(new PlotId(1,1), UUID.randomUUID(), new Vec(0, 0, 0), new Vec(1, 1, 1));
 
         assertEquals(Set.of(PlotFlag.Flag.BUILD, PlotFlag.Flag.BREAK), plot.getFlags(PlotFlag.Target.MEMBER));
         assertEquals(new HashSet<>(), plot.getFlags(PlotFlag.Target.PUBLIC));

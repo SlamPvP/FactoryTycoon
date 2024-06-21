@@ -1,16 +1,13 @@
 package com.slampvp.factory.plot;
 
 import com.slampvp.factory.FactoryServer;
-import net.minestom.server.coordinate.BlockVec;
+import com.slampvp.factory.common.Constants;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Player;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class PlotManager {
     private static PlotManager instance;
@@ -57,28 +54,41 @@ public class PlotManager {
 
     /**
      * Tries to claim the plot at the current location of the player.
-     * If there is no valid plot at the location or the plot has already been claimed, returns false.
+     * If there is no valid plot at the position or the plot has already been claimed, returns false.
      *
      * @param player the player who executed the claim
      * @return whether the claim was successful
      */
     public ClaimResult claimPlot(Player player) {
         Pos position = player.getPosition();
+        return claimPlot(player, position);
+    }
 
+    /**
+     * Tries to claim the plot at the provided position.
+     * If there is no valid plot at the position or the plot has already been claimed, returns false.
+     *
+     * @param player the player who executed the claim
+     * @param position the position of the requested plot
+     * @return whether the claim was successful
+     */
+    public ClaimResult claimPlot(Player player, Pos position) {
         if (!PlotGenerator.isInPlot(position)) {
             return ClaimResult.NOT_IN_PLOT;
         }
 
-        Optional<Plot> optionalPlot = getPlot(player.getPosition());
+        Optional<Plot> optionalPlot = getPlot(position);
 
         if (optionalPlot.isPresent()) {
             return ClaimResult.ALREADY_CLAIMED;
         }
 
         Vec[] dimensions = PlotGenerator.getDimensions(position);
+        Vec center = dimensions[0].add(dimensions[1]).div(2);
+        PlotId id = new PlotId(Math.floorDiv(center.blockX(), Constants.Plot.FULL_WIDTH), Math.floorDiv(center.blockZ(), Constants.Plot.FULL_WIDTH));
 
         Plot plot = new Plot(
-                UUID.randomUUID(),
+                id,
                 player.getUuid(),
                 Vec.fromPoint(dimensions[0]),
                 Vec.fromPoint(dimensions[1])
@@ -86,7 +96,7 @@ public class PlotManager {
 
         this.plots.add(plot);
 
-        PlotGenerator.claimPlot(player);
+        PlotGenerator.claimPlot(position, player.getInstance());
 
         return ClaimResult.SUCCESS;
     }
@@ -113,8 +123,31 @@ public class PlotManager {
 
         this.plots.remove(optionalPlot.get());
 
-        PlotGenerator.unClaimPlot(player);
+        PlotGenerator.unClaimPlot(player.getPosition(), player.getInstance());
 
         return UnClaimResult.SUCCESS;
+    }
+
+    /**
+     * Tries to claim the first available plot.
+     *
+     * @param player the player who executed the claim
+     * @return whether the claim was successful
+     */
+    public ClaimResult claimFreePlot(Player player) {
+        // TODO make this smarter
+        Optional<Plot> optionalPlot = this.plots
+                .stream()
+                .max(Comparator.comparingInt(plot -> plot.getId().getSum()));
+
+
+        if (optionalPlot.isEmpty()) {
+            return claimPlot(player, new Pos(0,Constants.Plot.HEIGHT,0));
+        }
+
+        Plot lastPlot = optionalPlot.get();
+        PlotId newId = lastPlot.getId().increment();
+
+        return claimPlot(player, new Pos(newId.x() * Constants.Plot.FULL_WIDTH, Constants.Plot.HEIGHT, newId.z() * Constants.Plot.FULL_WIDTH));
     }
 }
