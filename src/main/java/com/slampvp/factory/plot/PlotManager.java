@@ -135,19 +135,24 @@ public class PlotManager {
      * @return whether the claim was successful
      */
     public ClaimResult claimFreePlot(Player player) {
-        // TODO make this smarter
-        Optional<Plot> optionalPlot = this.plots
-                .stream()
-                .max(Comparator.comparingInt(plot -> plot.getId().getSum()));
+        int x = Constants.Plot.FULL_WIDTH;
+        int z = Constants.Plot.FULL_WIDTH;
+        int i = plots.size();
 
+        int k = (int) Math.ceil(i / 4.0);
 
-        if (optionalPlot.isEmpty()) {
-            return claimPlot(player, new Pos(0,Constants.Plot.HEIGHT,0));
+        if (i % 4 == 0) {
+            x *= -1;
+            z *= -1;
+        } else if (i % 2 == 0) {
+            x *= -1;
+        } else if (i % 4 == 3) {
+            z *= -1;
         }
 
-        Plot lastPlot = optionalPlot.get();
-        PlotId newId = lastPlot.getId().increment();
+        x *= k;
+        z *= k;
 
-        return claimPlot(player, new Pos(newId.x() * Constants.Plot.FULL_WIDTH, Constants.Plot.HEIGHT, newId.z() * Constants.Plot.FULL_WIDTH));
+        return claimPlot(player, new Pos(x, Constants.HEIGHT, z));
     }
 }

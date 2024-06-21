@@ -6,7 +6,6 @@ import com.google.gson.JsonParser;
 import com.slampvp.factory.plot.Plot;
 import com.slampvp.factory.plot.PlotFlag;
 import com.slampvp.factory.plot.PlotId;
-import net.minestom.server.coordinate.BlockVec;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
 import org.junit.Test;
@@ -21,12 +20,20 @@ import static org.junit.Assert.assertEquals;
 public class PlotTest {
     @Test
     public void testSerialize() {
-        PlotId id = new PlotId(1,1);
+        PlotId id = new PlotId(1, 1);
         UUID owner = UUID.randomUUID();
 
-        Plot plot = new Plot(id, owner, new Vec(0, 0, 0), new Vec(1, 1, 1),
+        Plot plot = new Plot(
+                id,
+                owner,
+                new Vec(0, 0, 0),
+                new Vec(1, 1, 1),
+                new HashSet<>(),
                 new Pos(1, 1, 1),
-                Map.of(), Map.of(), Map.of(PlotFlag.Target.MEMBER, 3, PlotFlag.Target.PUBLIC, 4));
+                Map.of(),
+                Map.of(),
+                Map.of(PlotFlag.Target.MEMBER, 3, PlotFlag.Target.PUBLIC, 4)
+        );
 
         String json = new Gson().toJson(plot);
 
@@ -35,6 +42,7 @@ public class PlotTest {
                 "\"owner\":\"" + owner + "\"," +
                 "\"start\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}," +
                 "\"end\":{\"x\":1.0,\"y\":1.0,\"z\":1.0}," +
+                "\"bannedPlayers\":[]," +
                 "\"spawn\":{\"x\":1.0,\"y\":1.0,\"z\":1.0,\"yaw\":0.0,\"pitch\":0.0}," +
                 "\"warps\":{}," +
                 "\"members\":{}," +
@@ -49,7 +57,7 @@ public class PlotTest {
 
     @Test
     public void testDeserialize() {
-        PlotId id = new PlotId(1,1);
+        PlotId id = new PlotId(1, 1);
         UUID owner = UUID.randomUUID();
 
         String json = "{" +
@@ -57,6 +65,7 @@ public class PlotTest {
                 "\"owner\":\"" + owner + "\"," +
                 "\"start\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}," +
                 "\"end\":{\"x\":1.0,\"y\":1.0,\"z\":1.0}," +
+                "\"bannedPlayers\":[]," +
                 "\"spawn\":{\"x\":1.0,\"y\":1.0,\"z\":1.0,\"yaw\":0.0,\"pitch\":0.0}," +
                 "\"members\":{}," +
                 "\"flags\":{\"MEMBER\":3,\"PUBLIC\":4}" +
@@ -68,6 +77,7 @@ public class PlotTest {
         assertEquals(owner, plot.getOwner());
         assertEquals(new Vec(0, 0, 0), plot.getStart());
         assertEquals(new Vec(1, 1, 1), plot.getEnd());
+        assertEquals(Set.of(), plot.getBannedPlayers());
         assertEquals(new Pos(1, 1, 1, 0, 0), plot.getSpawn());
         assertEquals(Map.of(), plot.getMembers());
         assertEquals(Map.of(PlotFlag.Target.MEMBER, 3, PlotFlag.Target.PUBLIC, 4), plot.getFlags());
@@ -75,7 +85,7 @@ public class PlotTest {
 
     @Test
     public void testFlags() {
-        Plot plot = new Plot(new PlotId(1,1), UUID.randomUUID(), new Vec(0, 0, 0), new Vec(1, 1, 1));
+        Plot plot = new Plot(new PlotId(1, 1), UUID.randomUUID(), new Vec(0, 0, 0), new Vec(1, 1, 1));
 
         assertEquals(Set.of(PlotFlag.Flag.BUILD, PlotFlag.Flag.BREAK), plot.getFlags(PlotFlag.Target.MEMBER));
         assertEquals(new HashSet<>(), plot.getFlags(PlotFlag.Target.PUBLIC));

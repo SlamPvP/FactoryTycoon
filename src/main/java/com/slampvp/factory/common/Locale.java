@@ -15,6 +15,7 @@ public final class Locale {
     public static final class Command {
         public static final TextComponent INVALID_COMMAND = Component.text("Usage: <usage>").color(NamedTextColor.RED);
         public static final TextComponent INVALID_PERMISSIONS = Component.text("You don't have the permissions to execute this command!").color(NamedTextColor.RED);
+        public static final TextComponent INVALID_PLAYER = Component.text("Cannot find specified player!").color(NamedTextColor.RED);
     }
 
     /**
@@ -45,6 +46,18 @@ public final class Locale {
         public static final TextComponent INVALID_WARP = PREFIX.append(
                 Component.text("This warp does not exist!").color(NamedTextColor.RED)
         );
+        public static final TextComponent ALREADY_BANNED = PREFIX.append(
+                Component.text("This player is already banned from your plot!").color(NamedTextColor.RED)
+        );
+        public static final TextComponent BAN_SELF = PREFIX.append(
+                Component.text("You cannot ban yourself!").color(NamedTextColor.RED)
+        );
+        public static final TextComponent KICK_SELF = PREFIX.append(
+                Component.text("You cannot kick yourself!").color(NamedTextColor.RED)
+        );
+        public static final TextComponent KICK_NOT_IN_PLOT = PREFIX.append(
+                Component.text("The player you want to kick needs to be in your plot!").color(NamedTextColor.RED)
+        );
 
         public static final TextComponent CLAIMED = PREFIX.append(
                 Component.text("You've successfully claimed this plot!").color(NamedTextColor.GREEN)
@@ -67,8 +80,14 @@ public final class Locale {
         public static final TextComponent REMOVED_WARP = PREFIX.append(
                 Component.text("You've successfully removed warp <warp> from your plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent CLEARED_PLOT = PREFIX.append(
+        public static final TextComponent CLEARED = PREFIX.append(
                 Component.text("You've successfully cleared your plot!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent BANNED = PREFIX.append(
+                Component.text("You've successfully banned <player> from your plot!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent KICKED = PREFIX.append(
+                Component.text("You've successfully kicked <player> from your plot!").color(NamedTextColor.GREEN)
         );
     }
 }

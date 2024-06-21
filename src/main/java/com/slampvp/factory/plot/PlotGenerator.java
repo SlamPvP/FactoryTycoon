@@ -20,12 +20,12 @@ public final class PlotGenerator {
             Point start = unit.absoluteStart();
             Point size = unit.size();
 
-            unit.modifier().fillHeight(start.blockY(), Constants.Plot.HEIGHT, Block.STONE);
+            unit.modifier().fillHeight(start.blockY(), Constants.HEIGHT, Block.STONE);
 
             for (int x = start.blockX(); x < start.blockX() + size.blockX(); x++) {
                 for (int z = start.blockZ(); z < start.blockZ() + size.blockZ(); z++) {
                     Block block = getBlockForPoint(x, z);
-                    unit.modifier().setBlock(new BlockVec(x, Constants.Plot.HEIGHT, z), block);
+                    unit.modifier().setBlock(new BlockVec(x, Constants.HEIGHT, z), block);
                 }
             }
         };
@@ -64,7 +64,7 @@ public final class PlotGenerator {
                     continue;
                 }
 
-                absoluteBlockBatch.setBlock(new BlockVec(x + plotStartX, Constants.Plot.HEIGHT, z + plotStartZ), block);
+                absoluteBlockBatch.setBlock(new BlockVec(x + plotStartX, Constants.HEIGHT, z + plotStartZ), block);
             }
         }
 
@@ -84,9 +84,9 @@ public final class PlotGenerator {
         for (int x = plotStartX + 1; x < plotStartX + Constants.Plot.PLOT_SIZE; x++) {
             for (int z = plotStartZ + 1; z < plotStartZ + Constants.Plot.PLOT_SIZE; z++) {
                 Block block = getBlockForPoint(x, z);
-                absoluteBlockBatch.setBlock(new BlockVec(x, Constants.Plot.HEIGHT, z), block);
+                absoluteBlockBatch.setBlock(new BlockVec(x, Constants.HEIGHT, z), block);
 
-                for (int y = Constants.Plot.HEIGHT + 1; y <= Constants.Plot.PLOT_HEIGHT; y++) {
+                for (int y = Constants.HEIGHT + 1; y <= Constants.Plot.PLOT_HEIGHT; y++) {
                     absoluteBlockBatch.setBlock(new BlockVec(x, y, z), Block.AIR);
                 }
             }

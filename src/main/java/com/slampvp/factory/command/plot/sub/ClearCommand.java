@@ -5,8 +5,6 @@ import com.slampvp.factory.command.FactoryCommand;
 import com.slampvp.factory.common.Locale;
 import com.slampvp.factory.player.Rank;
 import com.slampvp.factory.plot.*;
-import net.kyori.adventure.text.TextReplacementConfig;
-import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
 
 import java.util.Optional;
@@ -37,7 +35,7 @@ public class ClearCommand extends FactoryCommand {
 
             PlotGenerator.clearPlot(player.getPosition(), player.getInstance());
 
-            sender.sendMessage(Locale.Plot.CLEARED_PLOT);
+            sender.sendMessage(Locale.Plot.CLEARED);
         });
     }
 }

@@ -47,7 +47,7 @@ public final class FactoryServer {
 
             event.setSpawningInstance(instanceContainer);
 
-            player.setRespawnPoint(new Pos(0.5, Constants.Plot.HEIGHT + 1, 0.5));
+            player.setRespawnPoint(new Pos(0.5, Constants.HEIGHT + 1, 0.5));
             player.setGameMode(GameMode.CREATIVE);
         });
 

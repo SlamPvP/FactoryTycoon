@@ -16,16 +16,18 @@ public final class Plot {
     private final UUID owner;
     private final Vec start;
     private final Vec end;
+    private final Set<UUID> bannedPlayers;
     private final Map<String, Pos> warps;
     private final Map<UUID, PlotFlag.Target> members;
     private final Map<PlotFlag.Target, Integer> flags;
     private Pos spawn;
 
-    public Plot(PlotId id, UUID owner, Vec start, Vec end, Pos spawn, Map<String, Pos> warps, Map<UUID, PlotFlag.Target> members, Map<PlotFlag.Target, Integer> flags) {
+    public Plot(PlotId id, UUID owner, Vec start, Vec end, Set<UUID> bannedPlayers, Pos spawn, Map<String, Pos> warps, Map<UUID, PlotFlag.Target> members, Map<PlotFlag.Target, Integer> flags) {
         this.id = id;
         this.owner = owner;
         this.start = start;
         this.end = end;
+        this.bannedPlayers = bannedPlayers;
         this.spawn = spawn;
         this.warps = warps;
         this.members = members;
@@ -33,8 +35,8 @@ public final class Plot {
     }
 
     public Plot(PlotId id, UUID owner, Vec start, Vec end) {
-        this(id, owner, start, end, null, new HashMap<>(), new HashMap<>(), new EnumMap<>(PlotFlag.Target.class));
-        this.spawn = end.add(start).div(2).add(0.5).withY(Constants.Plot.HEIGHT + 1).asPosition();
+        this(id, owner, start, end, new HashSet<>(), null, new HashMap<>(), new HashMap<>(), new EnumMap<>(PlotFlag.Target.class));
+        this.spawn = end.add(start).div(2).add(0.5).withY(Constants.HEIGHT + 1).asPosition();
         this.flags.putAll(PlotFlag.DEFAULT_PERMISSIONS);
     }
 
@@ -48,9 +50,9 @@ public final class Plot {
     public boolean isAdded(Player player) {
         UUID uuid = player.getUuid();
 
-        if (owner.equals(uuid)) return true;
+        if (this.owner.equals(uuid)) return true;
 
-        return members.containsKey(uuid);
+        return this.members.containsKey(uuid);
     }
 
     public void addWarp(String name, Pos position) {
@@ -66,10 +68,23 @@ public final class Plot {
     }
 
     public boolean contains(Point point) {
-        return point.blockX() >= start.blockX() && point.blockX() <= end.blockX() &&
-                point.blockY() >= start.blockY() && point.blockY() <= end.blockY() &&
-                point.blockZ() >= start.blockZ() && point.blockZ() <= end.blockZ();
+        return point.blockX() >= this.start.blockX() && point.blockX() <= this.end.blockX() &&
+                point.blockY() >= this.start.blockY() && point.blockY() <= this.end.blockY() &&
+                point.blockZ() >= this.start.blockZ() && point.blockZ() <= this.end.blockZ();
     }
+
+    public boolean isBanned(Player target) {
+        return this.bannedPlayers.contains(target.getUuid());
+    }
+
+    public void banPlayer(Player player) {
+        this.bannedPlayers.add(player.getUuid());
+    }
+
+    public void unbanPlayer(Player player) {
+        this.bannedPlayers.remove(player.getUuid());
+    }
+
 
     public int getLevel() {
         return 1;
@@ -117,5 +132,9 @@ public final class Plot {
         return Stream.of(PlotFlag.Flag.values())
                 .filter(flag -> (bitmap & (1 << flag.getBit())) != 0)
                 .collect(Collectors.toCollection(() -> EnumSet.noneOf(PlotFlag.Flag.class)));
+    }
+
+    public Set<UUID> getBannedPlayers() {
+        return new HashSet<>(bannedPlayers);
     }
 }
