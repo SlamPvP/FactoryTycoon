@@ -36,7 +36,7 @@ public class RemoveWarpCommand extends FactoryCommand {
             Plot plot = optionalPlot.get();
 
             if (!plot.getOwner().equals(player.getUuid())) {
-                sender.sendMessage(Locale.Plot.NO_PLOT_OWNER);
+                sender.sendMessage(Locale.Plot.NOT_PLOT_OWNER);
                 return;
             }
 

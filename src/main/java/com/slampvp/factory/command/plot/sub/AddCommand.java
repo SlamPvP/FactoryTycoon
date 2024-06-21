@@ -2,10 +2,10 @@ package com.slampvp.factory.command.plot.sub;
 
 import com.slampvp.factory.command.Command;
 import com.slampvp.factory.command.FactoryCommand;
-import com.slampvp.factory.common.Constants;
 import com.slampvp.factory.common.Locale;
 import com.slampvp.factory.player.Rank;
 import com.slampvp.factory.plot.Plot;
+import com.slampvp.factory.plot.PlotFlag;
 import com.slampvp.factory.plot.PlotManager;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.minestom.server.command.builder.arguments.ArgumentType;
@@ -14,10 +14,15 @@ import net.minestom.server.entity.Player;
 
 import java.util.Optional;
 
-@Command(description = "Kick a user from your plot.", usage = "/plot kick <player>", minimumRank = Rank.DEFAULT, playerOnly = true)
-public class KickCommand extends FactoryCommand {
-    public KickCommand() {
-        super("kick");
+@Command(
+        description = "Add a member to your plot.",
+        usage = "/plot add <player>",
+        minimumRank = Rank.DEFAULT,
+        playerOnly = true
+)
+public class AddCommand extends FactoryCommand {
+    public AddCommand() {
+        super("add");
     }
 
     @Override
@@ -48,18 +53,22 @@ public class KickCommand extends FactoryCommand {
             }
 
             if (target.getUuid().equals(player.getUuid())) {
-                sender.sendMessage(Locale.Plot.KICK_SELF);
+                sender.sendMessage(Locale.Plot.ADD_SELF);
                 return;
             }
 
-            if (!plot.contains(target.getPosition())) {
-                sender.sendMessage(Locale.Plot.KICK_NOT_IN_PLOT);
+            if (plot.isMember(player)) {
+                sender.sendMessage(Locale.Plot.ALREADY_ADDED);
                 return;
             }
 
-            target.teleport(Constants.SPAWN);
-            sender.sendMessage(Locale.Plot.KICKED
+            plot.addMember(target, PlotFlag.Target.MEMBER);
+
+            sender.sendMessage(Locale.Plot.ADDED
                     .replaceText(TextReplacementConfig.builder().match("<player>").replacement(target.getName()).build())
+            );
+            target.sendMessage(Locale.Plot.ADDED_TARGET
+                    .replaceText(TextReplacementConfig.builder().match("<player>").replacement(player.getName()).build())
             );
         }, playerArgument);
     }

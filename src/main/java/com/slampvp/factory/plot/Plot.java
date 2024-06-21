@@ -55,6 +55,16 @@ public final class Plot {
         return this.members.containsKey(uuid);
     }
 
+    public boolean isMember(Player player) {
+        return isAdded(player) &&
+                this.getMembers().getOrDefault(player.getUuid(), PlotFlag.Target.PUBLIC) == PlotFlag.Target.MEMBER;
+    }
+
+    public boolean isTrusted(Player player) {
+        return isAdded(player) &&
+                this.getMembers().getOrDefault(player.getUuid(), PlotFlag.Target.PUBLIC) == PlotFlag.Target.TRUSTED;
+    }
+
     public void addWarp(String name, Pos position) {
         this.warps.put(name, position);
     }
@@ -85,6 +95,13 @@ public final class Plot {
         this.bannedPlayers.remove(player.getUuid());
     }
 
+    public void addMember(Player target, PlotFlag.Target type) {
+        this.members.put(target.getUuid(), type);
+    }
+
+    public void removeMember(Player target) {
+        this.members.remove(target.getUuid());
+    }
 
     public int getLevel() {
         return 1;

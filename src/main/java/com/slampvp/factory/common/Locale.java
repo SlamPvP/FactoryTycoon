@@ -40,7 +40,7 @@ public final class Locale {
         public static final TextComponent NO_PLOT = PREFIX.append(
                 Component.text("You don't have a plot!").color(NamedTextColor.RED)
         );
-        public static final TextComponent NO_PLOT_OWNER = PREFIX.append(
+        public static final TextComponent NOT_PLOT_OWNER = PREFIX.append(
                 Component.text("You need to be the owner of this plot!").color(NamedTextColor.RED)
         );
         public static final TextComponent INVALID_WARP = PREFIX.append(
@@ -57,6 +57,18 @@ public final class Locale {
         );
         public static final TextComponent KICK_NOT_IN_PLOT = PREFIX.append(
                 Component.text("The player you want to kick needs to be in your plot!").color(NamedTextColor.RED)
+        );
+        public static final TextComponent ADD_SELF = PREFIX.append(
+                Component.text("You cannot add yourself as a member to your plot!").color(NamedTextColor.RED)
+        );
+        public static final TextComponent REMOVE_INVALID = PREFIX.append(
+                Component.text("This player is not a member of your plot!").color(NamedTextColor.RED)
+        );
+        public static final TextComponent ALREADY_ADDED = PREFIX.append(
+                Component.text("This player is already a member of your plot!").color(NamedTextColor.RED)
+        );
+        public static final TextComponent ALREADY_TRUSTED = PREFIX.append(
+                Component.text("This player is already a trusted player of your plot!").color(NamedTextColor.RED)
         );
 
         public static final TextComponent CLAIMED = PREFIX.append(
@@ -88,6 +100,24 @@ public final class Locale {
         );
         public static final TextComponent KICKED = PREFIX.append(
                 Component.text("You've successfully kicked <player> from your plot!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent ADDED = PREFIX.append(
+                Component.text("You've successfully added <player> as a member of your plot!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent ADDED_TARGET = PREFIX.append(
+                Component.text("You've been added as a member of <player>'s plot!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent TRUSTED = PREFIX.append(
+                Component.text("You've successfully trusted <player>!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent TRUSTED_TARGET = PREFIX.append(
+                Component.text("You've been added as a trusted player of <player>'s plot!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent REMOVED = PREFIX.append(
+                Component.text("You've successfully removed <player> as a member of your plot!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent REMOVED_TARGET = PREFIX.append(
+                Component.text("You've been removed from <player>'s plot!").color(NamedTextColor.GREEN)
         );
     }
 }
