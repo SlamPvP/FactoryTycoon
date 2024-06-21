@@ -70,6 +70,9 @@ public final class Locale {
         public static final TextComponent ALREADY_TRUSTED = PREFIX.append(
                 Component.text("This player is already a trusted player of your plot!").color(NamedTextColor.RED)
         );
+        public static final TextComponent NO_MERGE_CANDIDATE = PREFIX.append(
+                Component.text("Cannot find a merge candidate!").color(NamedTextColor.RED)
+        );
 
         public static final TextComponent CLAIMED = PREFIX.append(
                 Component.text("You've successfully claimed this plot!").color(NamedTextColor.GREEN)
@@ -118,6 +121,9 @@ public final class Locale {
         );
         public static final TextComponent REMOVED_TARGET = PREFIX.append(
                 Component.text("You've been removed from <player>'s plot!").color(NamedTextColor.GREEN)
+        );
+        public static final TextComponent MERGED = PREFIX.append(
+                Component.text("You've successfully merged your plots!").color(NamedTextColor.GREEN)
         );
     }
 }

@@ -34,10 +34,6 @@ public class PlotManager {
         FactoryServer.LOGGER.info("Initializing Plot Listener ✔");
     }
 
-    public Plot getFreePlot() {
-        return null;
-    }
-
     public List<Plot> getPlots(Player player) {
         return plots
                 .stream()
@@ -167,5 +163,45 @@ public class PlotManager {
         }
 
         return ClaimResult.FAILURE;
+    }
+
+    public MergeResult mergePlot(Player player) {
+        Pos position = player.getPosition();
+
+        Optional<Plot> optionalPlot = getPlot(position);
+
+        if (optionalPlot.isEmpty() || !optionalPlot.get().getOwner().equals(player.getUuid())) {
+            return MergeResult.NOT_IN_PLOT;
+        }
+
+        Plot plot = optionalPlot.get();
+
+        Vec direction = position.direction();
+        Vec offset = direction.mul(Constants.Plot.FULL_WIDTH);
+
+        Vec center = plot.getCenter();
+        Vec targetCenter = center.add(offset);
+
+        PlotId targetId = new PlotId(
+                Math.floorDiv(targetCenter.blockX(), Constants.Plot.FULL_WIDTH),
+                Math.floorDiv(targetCenter.blockZ(), Constants.Plot.FULL_WIDTH)
+        );
+
+        Optional<Plot> optionalTargetPlot = plots.stream()
+                .filter(targetPlot -> targetPlot.getId().equals(targetId))
+                .findFirst();
+
+        if (optionalTargetPlot.isEmpty()
+                || !optionalTargetPlot.get().getOwner().equals(player.getUuid())) {
+            return MergeResult.NO_MERGE_CANDIDATE;
+        }
+
+        Plot targetPlot = optionalTargetPlot.get();
+        plot.mergeWith(targetPlot);
+
+        PlotGenerator.setPlotBorder(plot, player.getInstance());
+        plots.remove(targetPlot);
+
+        return MergeResult.SUCCESS;
     }
 }

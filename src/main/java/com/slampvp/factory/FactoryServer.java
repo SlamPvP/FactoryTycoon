@@ -2,6 +2,7 @@ package com.slampvp.factory;
 
 import com.slampvp.factory.command.FactoryCommand;
 import com.slampvp.factory.common.Constants;
+import com.slampvp.factory.database.DatabaseManager;
 import com.slampvp.factory.plot.PlotGenerator;
 import com.slampvp.factory.plot.PlotManager;
 import net.minestom.server.MinecraftServer;
@@ -30,8 +31,11 @@ public final class FactoryServer {
 
     public static void main(String[] args) {
         MinecraftServer minecraftServer = MinecraftServer.init();
-
         MojangAuth.init();
+
+        MinecraftServer.getSchedulerManager().buildShutdownTask(() -> {
+            DatabaseManager.getInstance().close();
+        });
 
         InstanceManager instanceManager = MinecraftServer.getInstanceManager();
         InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
@@ -51,11 +55,8 @@ public final class FactoryServer {
             player.setGameMode(GameMode.CREATIVE);
         });
 
-//        MinecraftServer.getSchedulerManager().buildShutdownTask(() -> {
-//            instanceContainer.saveChunksToStorage().thenAccept(t -> LOGGER.info("Saved world."));
-//        });
-
         PlotManager.getInstance().init();
+        DatabaseManager.getInstance().init();
 
         streamPackage("com.slampvp.factory.command", FactoryCommand.class).forEach(c ->
                 MinecraftServer.getCommandManager().register(c)

@@ -15,7 +15,7 @@ public final class Plot {
     private final PlotId id;
     private final UUID owner;
     private final Vec start;
-    private final Vec end;
+    private Vec end;
     private final Set<UUID> bannedPlayers;
     private final Map<String, Pos> warps;
     private final Map<UUID, PlotFlag.Target> members;
@@ -81,6 +81,23 @@ public final class Plot {
         return point.blockX() >= this.start.blockX() && point.blockX() <= this.end.blockX() &&
                 point.blockY() >= this.start.blockY() && point.blockY() <= this.end.blockY() &&
                 point.blockZ() >= this.start.blockZ() && point.blockZ() <= this.end.blockZ();
+    }
+
+    public void mergeWith(@NotNull Plot targetPlot) {
+        if (!this.owner.equals(targetPlot.getOwner())) {
+            throw new IllegalArgumentException("Cannot merge plots with different owners");
+        }
+
+        this.end = targetPlot.getEnd();
+        this.spawn = this.start.add(this.end).div(2).add(0.5).withY(Constants.HEIGHT + 1).asPosition();
+
+        this.bannedPlayers.addAll(targetPlot.getBannedPlayers());
+        this.warps.putAll(targetPlot.getWarps());
+        this.members.putAll(targetPlot.getMembers());
+
+        for (Map.Entry<PlotFlag.Target, Integer> entry : targetPlot.getFlags().entrySet()) {
+            this.flags.merge(entry.getKey(), entry.getValue(), (v1, v2) -> v1 | v2);
+        }
     }
 
     public boolean isBanned(Player target) {
@@ -153,5 +170,9 @@ public final class Plot {
 
     public Set<UUID> getBannedPlayers() {
         return new HashSet<>(bannedPlayers);
+    }
+
+    public Vec getCenter() {
+        return this.start.add(this.end).div(2);
     }
 }

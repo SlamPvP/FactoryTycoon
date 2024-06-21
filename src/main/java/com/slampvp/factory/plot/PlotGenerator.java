@@ -72,6 +72,26 @@ public final class PlotGenerator {
         });
     }
 
+    public static void setPlotBorder(Plot plot, Instance instance) {
+        Vec start = plot.getStart();
+        Vec end = plot.getEnd();
+        int height = Constants.HEIGHT;
+        Block block = Block.GREEN_CONCRETE;
+
+        AbsoluteBlockBatch absoluteBlockBatch = new AbsoluteBlockBatch();
+
+        for (int x = start.blockX(); x <= end.blockX(); x++) {
+            for (int z = start.blockZ(); z <= end.blockZ(); z++) {
+                if (x == start.blockX() || x == end.blockX() || z == start.blockZ() || z == end.blockZ()) {
+                    absoluteBlockBatch.setBlock(new BlockVec(x, height, z), block);
+                }
+            }
+        }
+
+        absoluteBlockBatch.apply(instance, () -> {
+        });
+    }
+
     public static void clearPlot(Pos position, Instance instance) {
         int centerX = calculatePlotCenter(position.blockX());
         int centerZ = calculatePlotCenter(position.blockZ());
