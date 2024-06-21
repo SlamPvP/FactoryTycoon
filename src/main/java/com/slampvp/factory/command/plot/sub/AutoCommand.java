@@ -24,7 +24,7 @@ public class AutoCommand extends FactoryCommand {
             ClaimResult claimResult = PlotManager.getInstance().claimFreePlot(player);
 
             if (Objects.requireNonNull(claimResult) == ClaimResult.SUCCESS) {
-//                PlotManager.getInstance().getPlot(player.getPosition()).ifPresent(plot -> player.teleport(plot.getSpawn()));
+                PlotManager.getInstance().getPlot(player.getPosition()).ifPresent(plot -> player.teleport(plot.getSpawn()));
                 sender.sendMessage(Locale.Plot.CLAIMED);
             } else {
                 FactoryServer.LOGGER.error("This should not happen.");

@@ -135,24 +135,37 @@ public class PlotManager {
      * @return whether the claim was successful
      */
     public ClaimResult claimFreePlot(Player player) {
-        int x = Constants.Plot.FULL_WIDTH;
-        int z = Constants.Plot.FULL_WIDTH;
-        int i = plots.size();
+        int x = 0;
+        int z = 0;
+        int dx = Constants.Plot.FULL_WIDTH;
+        int dz = 0;
 
-        int k = (int) Math.ceil(i / 4.0);
+        int segmentLength = 1;
+        int segmentPassed = 0;
 
-        if (i % 4 == 0) {
-            x *= -1;
-            z *= -1;
-        } else if (i % 2 == 0) {
-            x *= -1;
-        } else if (i % 4 == 3) {
-            z *= -1;
+        for (int i = 0; i < plots.size() + 1; i++) {
+            ClaimResult result = claimPlot(player, new Pos(x, Constants.HEIGHT, z));
+            if (result == ClaimResult.SUCCESS) {
+                return result;
+            }
+
+            x += dx;
+            z += dz;
+            segmentPassed++;
+
+            if (segmentPassed == segmentLength) {
+                segmentPassed = 0;
+
+                int temp = dx;
+                dx = -dz;
+                dz = temp;
+
+                if (dz == 0) {
+                    segmentLength++;
+                }
+            }
         }
 
-        x *= k;
-        z *= k;
-
-        return claimPlot(player, new Pos(x, Constants.HEIGHT, z));
+        return ClaimResult.FAILURE;
     }
 }
