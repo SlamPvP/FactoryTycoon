@@ -1,7 +1,7 @@
-package com.slampvp.factory.database;
+package com.slampvp.factory.database.queries;
 
-final class DatabaseTables {
-    static final String TABLES_QUERY = """
+public final class CreateTables {
+    public static final String TABLES_QUERY = """
             DO
             $$
                 BEGIN

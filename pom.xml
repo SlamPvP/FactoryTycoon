@@ -24,16 +24,19 @@
             <artifactId>Minestom</artifactId>
             <version>f1d5940855</version>
         </dependency>
+
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.5.6</version>
         </dependency>
+
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.11.0</version>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-minimessage</artifactId>
+            <version>4.17.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>

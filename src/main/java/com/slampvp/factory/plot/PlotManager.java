@@ -2,11 +2,16 @@ package com.slampvp.factory.plot;
 
 import com.slampvp.factory.FactoryServer;
 import com.slampvp.factory.common.Constants;
+import com.slampvp.factory.database.DatabaseFormatter;
+import com.slampvp.factory.database.DatabaseManager;
+import com.slampvp.factory.database.queries.PlotQueries;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Player;
 
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.*;
 
 public class PlotManager {
@@ -93,6 +98,17 @@ public class PlotManager {
         this.plots.add(plot);
 
         PlotGenerator.claimPlot(position, player.getInstance());
+        DatabaseManager.getInstance().executeUpdate(PlotQueries.Insert.PLOT, preparedStatement -> {
+            try {
+                preparedStatement.setObject(1, plot.getId().toSql(), Types.OTHER);
+                preparedStatement.setString(2, plot.getOwner().toString());
+                preparedStatement.setObject(3, DatabaseFormatter.pointToString(plot.getStart()), Types.OTHER);
+                preparedStatement.setObject(4, DatabaseFormatter.pointToString(plot.getEnd()), Types.OTHER);
+                preparedStatement.setObject(5, DatabaseFormatter.pointToString(plot.getSpawn()), Types.OTHER);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         return ClaimResult.SUCCESS;
     }

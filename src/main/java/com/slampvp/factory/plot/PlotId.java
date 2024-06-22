@@ -13,6 +13,10 @@ public record PlotId(int x, int z) {
                 '}';
     }
 
+    public String toSql() {
+        return "(" + x + "," + z + ")";
+    }
+
     public PlotId increment() {
         boolean xLarger = Math.abs(x) >= Math.abs(z);
 
