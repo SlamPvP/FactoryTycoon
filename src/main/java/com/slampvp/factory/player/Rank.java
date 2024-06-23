@@ -11,17 +11,24 @@ public enum Rank {
     /**
      * Default rank with the lowest weight.
      */
-    DEFAULT(0);
+    DEFAULT(0, 1, 2),
+    ADMIN(10, 1, 2);
 
     private final int weight;
+    private final int maxPlots;
+    private final int maxWarpsPerPlot;
 
     /**
      * Constructor to set the weight of the rank.
      *
-     * @param weight The weight associated with the rank.
+     * @param weight          The weight associated with the rank.
+     * @param maxPlots        The maximum amount of plots the rank can have.
+     * @param maxWarpsPerPlot The maximum of warps per plot the rank can have;
      */
-    Rank(int weight) {
+    Rank(int weight, int maxPlots, int maxWarpsPerPlot) {
         this.weight = weight;
+        this.maxPlots = maxPlots;
+        this.maxWarpsPerPlot = maxWarpsPerPlot;
     }
 
     /**
@@ -33,13 +40,21 @@ public enum Rank {
         return weight;
     }
 
+    public int getMaxPlots() {
+        return maxPlots;
+    }
+
+    public int getMaxWarpsPerPlot() {
+        return maxWarpsPerPlot;
+    }
+
     /**
      * Checks if the current rank is equal to or higher than the specified rank.
      * In this context, a lower weight means a higher rank.
      *
      * @param rank The rank to compare with.
      * @return True if the current rank is equal to or higher than the specified rank,
-     *         otherwise false.
+     * otherwise false.
      */
     public boolean isEqualOrHigherThan(Rank rank) {
         return this.getWeight() <= rank.getWeight();
