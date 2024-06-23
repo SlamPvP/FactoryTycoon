@@ -5,10 +5,13 @@ import com.slampvp.factory.common.Constants;
 import com.slampvp.factory.database.DatabaseFormatter;
 import com.slampvp.factory.database.DatabaseManager;
 import com.slampvp.factory.database.queries.PlotQueries;
+import com.slampvp.factory.plot.models.*;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Player;
+import net.minestom.server.network.packet.server.play.ParticlePacket;
+import net.minestom.server.particle.Particle;
 
 import java.sql.SQLException;
 import java.sql.Types;
@@ -193,10 +196,16 @@ public class PlotManager {
         Plot plot = optionalPlot.get();
 
         Vec direction = position.direction();
+        player.sendMessage(direction.toString());
         Vec offset = direction.mul(Constants.Plot.FULL_WIDTH);
 
+        player.sendMessage(offset.toString());
+
         Vec center = plot.getCenter();
+        player.sendMessage(center.toString());
         Vec targetCenter = center.add(offset);
+
+        player.sendMessage(targetCenter.toString());
 
         PlotId targetId = new PlotId(
                 Math.floorDiv(targetCenter.blockX(), Constants.Plot.FULL_WIDTH),
@@ -212,11 +221,28 @@ public class PlotManager {
             return MergeResult.NO_MERGE_CANDIDATE;
         }
 
-        Plot targetPlot = optionalTargetPlot.get();
-        plot.mergeWith(targetPlot);
 
-        PlotGenerator.setPlotBorder(plot, player.getInstance());
-        plots.remove(targetPlot);
+
+        Plot targetPlot = optionalTargetPlot.get();
+
+        ParticlePacket packet = new ParticlePacket(
+                Particle.WHITE_SMOKE,
+                center.x(),
+                center.y(),
+                center.z(),
+                0,
+                0,
+                0,
+                1,
+                1
+        );
+
+        player.sendPacket(packet);
+
+//        plot.mergeWith(targetPlot);
+
+//        PlotGenerator.setPlotBorder(plot, player.getInstance());
+//        plots.remove(targetPlot);
 
         return MergeResult.SUCCESS;
     }

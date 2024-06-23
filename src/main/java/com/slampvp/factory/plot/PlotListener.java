@@ -1,6 +1,7 @@
 package com.slampvp.factory.plot;
 
 import com.slampvp.factory.common.Constants;
+import com.slampvp.factory.plot.models.Plot;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.BlockVec;
 import net.minestom.server.entity.Player;

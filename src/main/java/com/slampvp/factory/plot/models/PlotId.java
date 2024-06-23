@@ -1,4 +1,4 @@
-package com.slampvp.factory.plot;
+package com.slampvp.factory.plot.models;
 
 public record PlotId(int x, int z) {
     public int getSum() {

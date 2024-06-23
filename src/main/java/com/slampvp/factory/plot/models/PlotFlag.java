@@ -1,4 +1,4 @@
-package com.slampvp.factory.plot;
+package com.slampvp.factory.plot.models;
 
 import java.util.EnumMap;
 import java.util.Map;

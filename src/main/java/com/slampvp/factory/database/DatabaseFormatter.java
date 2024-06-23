@@ -4,7 +4,7 @@ import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
 
-public class DatabaseFormatter {
+public final class DatabaseFormatter {
     public static String pointToString(Point point) {
         if (point instanceof Vec vec) {
             return "(" + vec.x() + "," + vec.y() + "," + vec.z() + ")";

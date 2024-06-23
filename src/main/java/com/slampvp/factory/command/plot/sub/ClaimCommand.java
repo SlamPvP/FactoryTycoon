@@ -4,13 +4,9 @@ import com.slampvp.factory.command.Command;
 import com.slampvp.factory.command.FactoryCommand;
 import com.slampvp.factory.common.Locale;
 import com.slampvp.factory.player.Rank;
-import com.slampvp.factory.plot.ClaimResult;
-import com.slampvp.factory.plot.Plot;
-import com.slampvp.factory.plot.PlotGenerator;
+import com.slampvp.factory.plot.models.ClaimResult;
 import com.slampvp.factory.plot.PlotManager;
 import net.minestom.server.entity.Player;
-
-import java.util.Optional;
 
 @Command(description = "Claim a new plot at your location.", usage = "/plot claim", minimumRank = Rank.DEFAULT, playerOnly = true)
 public class ClaimCommand extends FactoryCommand {

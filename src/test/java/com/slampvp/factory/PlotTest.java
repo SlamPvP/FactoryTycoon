@@ -1,17 +1,12 @@
 package com.slampvp.factory;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.slampvp.factory.plot.Plot;
-import com.slampvp.factory.plot.PlotFlag;
-import com.slampvp.factory.plot.PlotId;
-import net.minestom.server.coordinate.Pos;
+import com.slampvp.factory.plot.models.Plot;
+import com.slampvp.factory.plot.models.PlotFlag;
+import com.slampvp.factory.plot.models.PlotId;
 import net.minestom.server.coordinate.Vec;
 import org.junit.Test;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 

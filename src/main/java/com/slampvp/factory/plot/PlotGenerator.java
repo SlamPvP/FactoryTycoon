@@ -1,18 +1,16 @@
 package com.slampvp.factory.plot;
 
 import com.slampvp.factory.common.Constants;
+import com.slampvp.factory.plot.models.Plot;
 import net.minestom.server.coordinate.BlockVec;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
-import net.minestom.server.entity.Player;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.batch.AbsoluteBlockBatch;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.instance.generator.Generator;
 import org.jetbrains.annotations.NotNull;
-
-import java.awt.event.WindowStateListener;
 
 public final class PlotGenerator {
     public static @NotNull Generator getGenerator() {

@@ -1,4 +1,4 @@
-package com.slampvp.factory.plot;
+package com.slampvp.factory.plot.models;
 
 import com.slampvp.factory.common.Constants;
 import net.minestom.server.coordinate.Point;
@@ -87,6 +87,9 @@ public final class Plot {
         if (!this.owner.equals(targetPlot.getOwner())) {
             throw new IllegalArgumentException("Cannot merge plots with different owners");
         }
+
+        System.out.println(getStart() + " " + getEnd());
+        System.out.println(targetPlot.getStart() + " " + targetPlot.getEnd());
 
         this.end = targetPlot.getEnd();
         this.spawn = this.start.add(this.end).div(2).add(0.5).withY(Constants.HEIGHT + 1).asPosition();

@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-public class DatabaseManager {
+public final class DatabaseManager {
     private static DatabaseManager instance;
     private final HikariDataSource dataSource;
     private final ExecutorService executor;

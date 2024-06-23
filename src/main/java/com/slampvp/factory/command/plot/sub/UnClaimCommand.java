@@ -4,9 +4,8 @@ import com.slampvp.factory.command.Command;
 import com.slampvp.factory.command.FactoryCommand;
 import com.slampvp.factory.common.Locale;
 import com.slampvp.factory.player.Rank;
-import com.slampvp.factory.plot.ClaimResult;
 import com.slampvp.factory.plot.PlotManager;
-import com.slampvp.factory.plot.UnClaimResult;
+import com.slampvp.factory.plot.models.UnClaimResult;
 import net.minestom.server.entity.Player;
 
 @Command(description = "Un-claim a plot.", usage = "/plot unclaim", minimumRank = Rank.DEFAULT, playerOnly = true)

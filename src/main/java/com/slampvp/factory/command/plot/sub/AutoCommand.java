@@ -5,7 +5,7 @@ import com.slampvp.factory.command.Command;
 import com.slampvp.factory.command.FactoryCommand;
 import com.slampvp.factory.common.Locale;
 import com.slampvp.factory.player.Rank;
-import com.slampvp.factory.plot.ClaimResult;
+import com.slampvp.factory.plot.models.ClaimResult;
 import com.slampvp.factory.plot.PlotManager;
 import net.minestom.server.entity.Player;
 
@@ -20,11 +20,12 @@ public class AutoCommand extends FactoryCommand {
     @Override
     public void init() {
         addSyntax((sender, context) -> {
+            PlotManager plotManager = PlotManager.getInstance();
             Player player = (Player) sender;
-            ClaimResult claimResult = PlotManager.getInstance().claimFreePlot(player);
+            ClaimResult claimResult = plotManager.claimFreePlot(player);
 
             if (Objects.requireNonNull(claimResult) == ClaimResult.SUCCESS) {
-                PlotManager.getInstance().getPlot(player.getPosition()).ifPresent(plot -> player.teleport(plot.getSpawn()));
+                player.teleport(plotManager.getPlots(player).getLast().getSpawn());
                 sender.sendMessage(Locale.Plot.CLAIMED);
             } else {
                 FactoryServer.LOGGER.error("This should not happen.");

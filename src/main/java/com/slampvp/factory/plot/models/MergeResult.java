@@ -1,4 +1,4 @@
-package com.slampvp.factory.plot;
+package com.slampvp.factory.plot.models;
 
 public enum MergeResult {
     NOT_IN_PLOT,
