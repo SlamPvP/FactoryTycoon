@@ -242,12 +242,7 @@ public final class PlotManager {
 
         Plot targetPlot = optionalTargetPlot.get();
 
-        player.sendMessage(plot.getStart() + " " + plot.getEnd());
-        player.sendMessage(targetPlot.getStart() + " " + targetPlot.getEnd());
-
         plot.mergeWith(targetPlot);
-
-        player.sendMessage(plot.getStart() + " " + plot.getEnd());
 
         PlotGenerator.setPlotBorder(plot, player.getInstance());
         plots.remove(targetPlot);

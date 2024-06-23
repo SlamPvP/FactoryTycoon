@@ -21,7 +21,6 @@ public class PlotListener {
             Optional<Plot> optionalPlot = plotManager.getPlot(position);
 
             if (optionalPlot.isEmpty()) {
-                System.out.println("no plot");
                 event.setCancelled(true);
                 return;
             }
