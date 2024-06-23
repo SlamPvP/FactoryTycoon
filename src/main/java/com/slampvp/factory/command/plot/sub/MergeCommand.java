@@ -5,11 +5,16 @@ import com.slampvp.factory.command.Command;
 import com.slampvp.factory.command.FactoryCommand;
 import com.slampvp.factory.common.Locale;
 import com.slampvp.factory.player.Rank;
-import com.slampvp.factory.plot.models.MergeResult;
 import com.slampvp.factory.plot.PlotManager;
+import com.slampvp.factory.plot.models.MergeResult;
 import net.minestom.server.entity.Player;
 
-@Command(description = "Merge two plots together into one large plot.", usage = "/plot merge", minimumRank = Rank.DEFAULT, playerOnly = true)
+@Command(
+        description = "Merge two plots together into one large plot.",
+        usage = "/plot merge",
+        minimumRank = Rank.DEFAULT,
+        playerOnly = true
+)
 public class MergeCommand extends FactoryCommand {
     public MergeCommand() {
         super("merge");

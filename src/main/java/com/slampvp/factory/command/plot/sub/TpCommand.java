@@ -4,8 +4,8 @@ import com.slampvp.factory.command.Command;
 import com.slampvp.factory.command.FactoryCommand;
 import com.slampvp.factory.common.Locale;
 import com.slampvp.factory.player.Rank;
-import com.slampvp.factory.plot.models.Plot;
 import com.slampvp.factory.plot.PlotManager;
+import com.slampvp.factory.plot.models.Plot;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
 

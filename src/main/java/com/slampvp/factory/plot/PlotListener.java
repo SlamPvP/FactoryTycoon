@@ -18,15 +18,10 @@ public class PlotListener {
 
         globalEventHandler.addListener(PlayerBlockBreakEvent.class, event -> {
             BlockVec position = event.getBlockPosition();
-
-            if (!PlotGenerator.isInPlot(position)) {
-                event.setCancelled(true);
-                return;
-            }
-
             Optional<Plot> optionalPlot = plotManager.getPlot(position);
 
             if (optionalPlot.isEmpty()) {
+                System.out.println("no plot");
                 event.setCancelled(true);
                 return;
             }
@@ -36,19 +31,12 @@ public class PlotListener {
 
             if (!plot.isAdded(player)) {
                 event.setCancelled(true);
-                return;
             }
 
         });
 
         globalEventHandler.addListener(PlayerBlockPlaceEvent.class, event -> {
             BlockVec position = event.getBlockPosition();
-
-            if (!PlotGenerator.isInPlot(position)) {
-                event.setCancelled(true);
-                return;
-            }
-
             Optional<Plot> optionalPlot = plotManager.getPlot(position);
 
             if (optionalPlot.isEmpty()) {

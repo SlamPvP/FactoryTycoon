@@ -4,14 +4,13 @@ import com.slampvp.factory.command.Command;
 import com.slampvp.factory.command.FactoryCommand;
 import com.slampvp.factory.common.Locale;
 import com.slampvp.factory.player.Rank;
-import com.slampvp.factory.plot.models.Plot;
 import com.slampvp.factory.plot.PlotManager;
+import com.slampvp.factory.plot.models.Plot;
 import net.minestom.server.entity.Player;
 
 import java.util.Optional;
 
-@Command(
-        description = "Get info of a plot.",
+@Command(description = "Get info of a plot.",
         usage = "/plot info",
         minimumRank = Rank.ADMIN,
         playerOnly = true

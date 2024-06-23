@@ -36,7 +36,7 @@ public final class PlotFlag {
          * Public target: has the most restricted permissions.
          * Default permissions: no permissions.
          */
-        PUBLIC;
+        PUBLIC
     }
 
     /**

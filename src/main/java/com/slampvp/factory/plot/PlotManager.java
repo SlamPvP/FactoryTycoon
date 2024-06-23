@@ -10,12 +10,13 @@ import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Player;
-import net.minestom.server.network.packet.server.play.ParticlePacket;
-import net.minestom.server.particle.Particle;
 
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public final class PlotManager {
     private static PlotManager instance;
@@ -229,52 +230,27 @@ public final class PlotManager {
         Plot plot = optionalPlot.get();
 
         Vec direction = position.direction();
-        player.sendMessage(direction.toString());
         Vec offset = direction.mul(Constants.Plot.FULL_WIDTH);
-
-        player.sendMessage(offset.toString());
-
         Vec center = plot.getCenter();
-        player.sendMessage(center.toString());
         Vec targetCenter = center.add(offset);
 
-        player.sendMessage(targetCenter.toString());
-
-        PlotId targetId = new PlotId(
-                Math.floorDiv(targetCenter.blockX(), Constants.Plot.FULL_WIDTH),
-                Math.floorDiv(targetCenter.blockZ(), Constants.Plot.FULL_WIDTH)
-        );
-
-        Optional<Plot> optionalTargetPlot = plots.stream()
-                .filter(targetPlot -> targetPlot.getId().equals(targetId))
-                .findFirst();
-
+        Optional<Plot> optionalTargetPlot = getPlot(targetCenter);
         if (optionalTargetPlot.isEmpty()
                 || !optionalTargetPlot.get().getOwner().equals(player.getUuid())) {
             return MergeResult.NO_MERGE_CANDIDATE;
         }
 
-
         Plot targetPlot = optionalTargetPlot.get();
 
-        ParticlePacket packet = new ParticlePacket(
-                Particle.WHITE_SMOKE,
-                center.x(),
-                center.y(),
-                center.z(),
-                0,
-                0,
-                0,
-                1,
-                1
-        );
+        player.sendMessage(plot.getStart() + " " + plot.getEnd());
+        player.sendMessage(targetPlot.getStart() + " " + targetPlot.getEnd());
 
-        player.sendPacket(packet);
+        plot.mergeWith(targetPlot);
 
-//        plot.mergeWith(targetPlot);
+        player.sendMessage(plot.getStart() + " " + plot.getEnd());
 
-//        PlotGenerator.setPlotBorder(plot, player.getInstance());
-//        plots.remove(targetPlot);
+        PlotGenerator.setPlotBorder(plot, player.getInstance());
+        plots.remove(targetPlot);
 
         return MergeResult.SUCCESS;
     }

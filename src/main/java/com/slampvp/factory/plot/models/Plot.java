@@ -12,15 +12,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class Plot {
-    private long dbId;
     private final PlotId id;
     private final UUID owner;
     private final Vec start;
-    private Vec end;
     private final Set<UUID> bannedPlayers;
     private final Map<String, Pos> warps;
     private final Map<UUID, PlotFlag.Target> members;
     private final Map<PlotFlag.Target, Integer> flags;
+    private long dbId;
+    private Vec end;
     private Pos spawn;
 
     public Plot(long dbId, PlotId id, UUID owner, Vec start, Vec end, Set<UUID> bannedPlayers, Pos spawn, Map<String, Pos> warps, Map<UUID, PlotFlag.Target> members, Map<PlotFlag.Target, Integer> flags) {
@@ -94,9 +94,6 @@ public final class Plot {
         if (!this.owner.equals(targetPlot.getOwner())) {
             throw new IllegalArgumentException("Cannot merge plots with different owners");
         }
-
-        System.out.println(getStart() + " " + getEnd());
-        System.out.println(targetPlot.getStart() + " " + targetPlot.getEnd());
 
         this.end = targetPlot.getEnd();
         this.spawn = this.start.add(this.end).div(2).add(0.5).withY(Constants.HEIGHT + 1).asPosition();

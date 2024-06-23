@@ -1,18 +1,12 @@
 package com.slampvp.factory;
 
 import com.slampvp.factory.command.FactoryCommand;
-import com.slampvp.factory.common.Constants;
 import com.slampvp.factory.database.DatabaseManager;
 import com.slampvp.factory.player.PlayerListener;
 import com.slampvp.factory.plot.PlotGenerator;
 import com.slampvp.factory.plot.PlotManager;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.builder.Command;
-import net.minestom.server.coordinate.Pos;
-import net.minestom.server.entity.GameMode;
-import net.minestom.server.entity.Player;
-import net.minestom.server.event.GlobalEventHandler;
-import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
 import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;

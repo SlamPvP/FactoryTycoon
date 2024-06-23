@@ -8,121 +8,121 @@ import net.kyori.adventure.text.format.TextDecoration;
 /**
  * This class contains constants related to localization and messages.
  */
-public final class Locale {
+public interface Locale {
     /**
      * Command-related messages.
      */
-    public static final class Command {
-        public static final TextComponent INVALID_COMMAND = Component.text("Usage: <usage>").color(NamedTextColor.RED);
-        public static final TextComponent INVALID_PERMISSIONS = Component.text("You don't have the permissions to execute this command!").color(NamedTextColor.RED);
-        public static final TextComponent INVALID_PLAYER = Component.text("Cannot find specified player!").color(NamedTextColor.RED);
+    interface Command {
+        TextComponent INVALID_COMMAND = Component.text("Usage: <usage>").color(NamedTextColor.RED);
+        TextComponent INVALID_PERMISSIONS = Component.text("You don't have the permissions to execute this command!").color(NamedTextColor.RED);
+        TextComponent INVALID_PLAYER = Component.text("Cannot find specified player!").color(NamedTextColor.RED);
     }
 
     /**
      * Plot-related messages.
      */
-    public static final class Plot {
-        public static final TextComponent PREFIX = Component.text()
+    interface Plot {
+        TextComponent PREFIX = Component.text()
                 .append(Component.text("[").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD))
                 .append(Component.text("Plot").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD))
                 .append(Component.text("] ").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD))
                 .build();
 
-        public static final TextComponent NOT_IN_PLOT = PREFIX.append(
+        TextComponent NOT_IN_PLOT = PREFIX.append(
                 Component.text("You need to be in a plot to execute this command!").color(NamedTextColor.RED)
         );
-        public static final TextComponent ALREADY_CLAIMED = PREFIX.append(
+        TextComponent ALREADY_CLAIMED = PREFIX.append(
                 Component.text("This plot is already claimed!").color(NamedTextColor.RED)
         );
-        public static final TextComponent NOT_CLAIMED = PREFIX.append(
+        TextComponent NOT_CLAIMED = PREFIX.append(
                 Component.text("This plot is not claimed!").color(NamedTextColor.RED)
         );
-        public static final TextComponent NO_PLOT = PREFIX.append(
+        TextComponent NO_PLOT = PREFIX.append(
                 Component.text("You don't have a plot!").color(NamedTextColor.RED)
         );
-        public static final TextComponent NOT_PLOT_OWNER = PREFIX.append(
+        TextComponent NOT_PLOT_OWNER = PREFIX.append(
                 Component.text("You need to be the owner of this plot!").color(NamedTextColor.RED)
         );
-        public static final TextComponent INVALID_WARP = PREFIX.append(
+        TextComponent INVALID_WARP = PREFIX.append(
                 Component.text("This warp does not exist!").color(NamedTextColor.RED)
         );
-        public static final TextComponent ALREADY_BANNED = PREFIX.append(
+        TextComponent ALREADY_BANNED = PREFIX.append(
                 Component.text("This player is already banned from your plot!").color(NamedTextColor.RED)
         );
-        public static final TextComponent BAN_SELF = PREFIX.append(
+        TextComponent BAN_SELF = PREFIX.append(
                 Component.text("You cannot ban yourself!").color(NamedTextColor.RED)
         );
-        public static final TextComponent KICK_SELF = PREFIX.append(
+        TextComponent KICK_SELF = PREFIX.append(
                 Component.text("You cannot kick yourself!").color(NamedTextColor.RED)
         );
-        public static final TextComponent KICK_NOT_IN_PLOT = PREFIX.append(
+        TextComponent KICK_NOT_IN_PLOT = PREFIX.append(
                 Component.text("The player you want to kick needs to be in your plot!").color(NamedTextColor.RED)
         );
-        public static final TextComponent ADD_SELF = PREFIX.append(
+        TextComponent ADD_SELF = PREFIX.append(
                 Component.text("You cannot add yourself as a member to your plot!").color(NamedTextColor.RED)
         );
-        public static final TextComponent REMOVE_INVALID = PREFIX.append(
+        TextComponent REMOVE_INVALID = PREFIX.append(
                 Component.text("This player is not a member of your plot!").color(NamedTextColor.RED)
         );
-        public static final TextComponent ALREADY_ADDED = PREFIX.append(
+        TextComponent ALREADY_ADDED = PREFIX.append(
                 Component.text("This player is already a member of your plot!").color(NamedTextColor.RED)
         );
-        public static final TextComponent ALREADY_TRUSTED = PREFIX.append(
+        TextComponent ALREADY_TRUSTED = PREFIX.append(
                 Component.text("This player is already a trusted player of your plot!").color(NamedTextColor.RED)
         );
-        public static final TextComponent NO_MERGE_CANDIDATE = PREFIX.append(
+        TextComponent NO_MERGE_CANDIDATE = PREFIX.append(
                 Component.text("Cannot find a merge candidate!").color(NamedTextColor.RED)
         );
 
-        public static final TextComponent CLAIMED = PREFIX.append(
+        TextComponent CLAIMED = PREFIX.append(
                 Component.text("You've successfully claimed this plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent UNCLAIMED = PREFIX.append(
+        TextComponent UNCLAIMED = PREFIX.append(
                 Component.text("You've successfully unclaimed this plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent TELEPORTED = PREFIX.append(
+        TextComponent TELEPORTED = PREFIX.append(
                 Component.text("You've successfully teleported to your plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent WARPED = PREFIX.append(
+        TextComponent WARPED = PREFIX.append(
                 Component.text("You've successfully warped to warp <warp>!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent SET_SPAWN = PREFIX.append(
+        TextComponent SET_SPAWN = PREFIX.append(
                 Component.text("You've successfully set the spawn of this plot to your location!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent ADDED_WARP = PREFIX.append(
+        TextComponent ADDED_WARP = PREFIX.append(
                 Component.text("You've successfully added warp <warp> to your plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent REMOVED_WARP = PREFIX.append(
+        TextComponent REMOVED_WARP = PREFIX.append(
                 Component.text("You've successfully removed warp <warp> from your plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent CLEARED = PREFIX.append(
+        TextComponent CLEARED = PREFIX.append(
                 Component.text("You've successfully cleared your plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent BANNED = PREFIX.append(
+        TextComponent BANNED = PREFIX.append(
                 Component.text("You've successfully banned <player> from your plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent KICKED = PREFIX.append(
+        TextComponent KICKED = PREFIX.append(
                 Component.text("You've successfully kicked <player> from your plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent ADDED = PREFIX.append(
+        TextComponent ADDED = PREFIX.append(
                 Component.text("You've successfully added <player> as a member of your plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent ADDED_TARGET = PREFIX.append(
+        TextComponent ADDED_TARGET = PREFIX.append(
                 Component.text("You've been added as a member of <player>'s plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent TRUSTED = PREFIX.append(
+        TextComponent TRUSTED = PREFIX.append(
                 Component.text("You've successfully trusted <player>!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent TRUSTED_TARGET = PREFIX.append(
+        TextComponent TRUSTED_TARGET = PREFIX.append(
                 Component.text("You've been added as a trusted player of <player>'s plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent REMOVED = PREFIX.append(
+        TextComponent REMOVED = PREFIX.append(
                 Component.text("You've successfully removed <player> as a member of your plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent REMOVED_TARGET = PREFIX.append(
+        TextComponent REMOVED_TARGET = PREFIX.append(
                 Component.text("You've been removed from <player>'s plot!").color(NamedTextColor.GREEN)
         );
-        public static final TextComponent MERGED = PREFIX.append(
+        TextComponent MERGED = PREFIX.append(
                 Component.text("You've successfully merged your plots!").color(NamedTextColor.GREEN)
         );
     }

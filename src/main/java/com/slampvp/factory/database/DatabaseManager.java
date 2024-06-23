@@ -9,7 +9,6 @@ import java.sql.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 
 public final class DatabaseManager {
     private static DatabaseManager instance;

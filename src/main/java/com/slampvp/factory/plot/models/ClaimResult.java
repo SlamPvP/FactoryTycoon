@@ -4,5 +4,5 @@ public enum ClaimResult {
     NOT_IN_PLOT,
     ALREADY_CLAIMED,
     SUCCESS,
-    FAILURE;
+    FAILURE
 }
