@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.*;
 
-public class PlotManager {
+public final class PlotManager {
     private static PlotManager instance;
 
     // TODO: Store this in a map.
@@ -56,6 +56,37 @@ public class PlotManager {
                 .findFirst();
     }
 
+    public void loadPlots(Player player) {
+        DatabaseManager.getInstance().executeQuery(
+                PlotQueries.Select.JOINED_BY_OWNER,
+                preparedStatement -> {
+                    preparedStatement.setString(1, player.getUuid().toString());
+                },
+                resultSet -> {
+                    try {
+                        while (resultSet.next()) {
+                            Plot plot = new Plot(
+                                    resultSet.getLong("id"),
+                                    PlotId.fromSQL(resultSet.getString("plot_id")),
+                                    UUID.fromString(resultSet.getString("owner")),
+                                    DatabaseFormatter.stringToVec(resultSet.getString("start")),
+                                    DatabaseFormatter.stringToVec(resultSet.getString("end")),
+                                    DatabaseFormatter.stringToPos(resultSet.getString("spawn"))
+                            );
+                            this.plots.add(plot);
+                        }
+                    } catch (SQLException e) {
+                        throw new RuntimeException("Error processing ResultSet", e);
+                    } finally {
+                        try {
+                            resultSet.close();
+                        } catch (SQLException e) {
+                            FactoryServer.LOGGER.error(e.toString());
+                        }
+                    }
+                });
+    }
+
     /**
      * Tries to claim the plot at the current location of the player.
      * If there is no valid plot at the position or the plot has already been claimed, returns false.
@@ -72,7 +103,7 @@ public class PlotManager {
      * Tries to claim the plot at the provided position.
      * If there is no valid plot at the position or the plot has already been claimed, returns false.
      *
-     * @param player the player who executed the claim
+     * @param player   the player who executed the claim
      * @param position the position of the requested plot
      * @return whether the claim was successful
      */
@@ -101,17 +132,14 @@ public class PlotManager {
         this.plots.add(plot);
 
         PlotGenerator.claimPlot(position, player.getInstance());
+
         DatabaseManager.getInstance().executeUpdate(PlotQueries.Insert.PLOT, preparedStatement -> {
-            try {
-                preparedStatement.setObject(1, plot.getId().toSql(), Types.OTHER);
-                preparedStatement.setString(2, plot.getOwner().toString());
-                preparedStatement.setObject(3, DatabaseFormatter.pointToString(plot.getStart()), Types.OTHER);
-                preparedStatement.setObject(4, DatabaseFormatter.pointToString(plot.getEnd()), Types.OTHER);
-                preparedStatement.setObject(5, DatabaseFormatter.pointToString(plot.getSpawn()), Types.OTHER);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        });
+            preparedStatement.setObject(1, plot.getId().toSQL(), Types.OTHER);
+            preparedStatement.setString(2, plot.getOwner().toString());
+            preparedStatement.setObject(3, DatabaseFormatter.pointToString(plot.getStart()), Types.OTHER);
+            preparedStatement.setObject(4, DatabaseFormatter.pointToString(plot.getEnd()), Types.OTHER);
+            preparedStatement.setObject(5, DatabaseFormatter.pointToString(plot.getSpawn()), Types.OTHER);
+        }).thenAccept(plot::setDbId);
 
         return ClaimResult.SUCCESS;
     }
@@ -136,9 +164,14 @@ public class PlotManager {
             return UnClaimResult.NOT_CLAIMED;
         }
 
-        this.plots.remove(optionalPlot.get());
+        Plot plot = optionalPlot.get();
+
+        this.plots.remove(plot);
 
         PlotGenerator.unClaimPlot(player.getPosition(), player.getInstance());
+        DatabaseManager.getInstance().executeUpdate(PlotQueries.Delete.PLOT_BY_ID, preparedStatement -> {
+            preparedStatement.setObject(1, plot.getDbId(), Types.OTHER);
+        });
 
         return UnClaimResult.SUCCESS;
     }
@@ -220,7 +253,6 @@ public class PlotManager {
                 || !optionalTargetPlot.get().getOwner().equals(player.getUuid())) {
             return MergeResult.NO_MERGE_CANDIDATE;
         }
-
 
 
         Plot targetPlot = optionalTargetPlot.get();

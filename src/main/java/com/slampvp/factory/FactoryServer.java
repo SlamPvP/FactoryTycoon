@@ -3,6 +3,7 @@ package com.slampvp.factory;
 import com.slampvp.factory.command.FactoryCommand;
 import com.slampvp.factory.common.Constants;
 import com.slampvp.factory.database.DatabaseManager;
+import com.slampvp.factory.player.PlayerListener;
 import com.slampvp.factory.plot.PlotGenerator;
 import com.slampvp.factory.plot.PlotManager;
 import net.minestom.server.MinecraftServer;
@@ -43,17 +44,9 @@ public final class FactoryServer {
         instanceContainer.setChunkSupplier(LightingChunk::new);
         instanceContainer.setGenerator(PlotGenerator.getGenerator());
         instanceContainer.setChunkLoader(new AnvilLoader("worlds/world"));
+        instanceContainer.setTimeRate(0);
 
-        GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
-
-        globalEventHandler.addListener(AsyncPlayerConfigurationEvent.class, event -> {
-            Player player = event.getPlayer();
-
-            event.setSpawningInstance(instanceContainer);
-
-            player.setRespawnPoint(new Pos(0.5, Constants.HEIGHT + 1, 0.5));
-            player.setGameMode(GameMode.CREATIVE);
-        });
+        new PlayerListener(instanceContainer);
 
         PlotManager.getInstance().init();
         DatabaseManager.getInstance().init();

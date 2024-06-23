@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class Plot {
+    private long dbId;
     private final PlotId id;
     private final UUID owner;
     private final Vec start;
@@ -22,7 +23,8 @@ public final class Plot {
     private final Map<PlotFlag.Target, Integer> flags;
     private Pos spawn;
 
-    public Plot(PlotId id, UUID owner, Vec start, Vec end, Set<UUID> bannedPlayers, Pos spawn, Map<String, Pos> warps, Map<UUID, PlotFlag.Target> members, Map<PlotFlag.Target, Integer> flags) {
+    public Plot(long dbId, PlotId id, UUID owner, Vec start, Vec end, Set<UUID> bannedPlayers, Pos spawn, Map<String, Pos> warps, Map<UUID, PlotFlag.Target> members, Map<PlotFlag.Target, Integer> flags) {
+        this.dbId = dbId;
         this.id = id;
         this.owner = owner;
         this.start = start;
@@ -35,8 +37,13 @@ public final class Plot {
     }
 
     public Plot(PlotId id, UUID owner, Vec start, Vec end) {
-        this(id, owner, start, end, new HashSet<>(), null, new HashMap<>(), new HashMap<>(), new EnumMap<>(PlotFlag.Target.class));
+        this(-1, id, owner, start, end, new HashSet<>(), null, new HashMap<>(), new HashMap<>(), new EnumMap<>(PlotFlag.Target.class));
         this.spawn = end.add(start).div(2).add(0.5).withY(Constants.HEIGHT + 1).asPosition();
+        this.flags.putAll(PlotFlag.DEFAULT_PERMISSIONS);
+    }
+
+    public Plot(long dbId, PlotId id, UUID owner, Vec start, Vec end, Pos spawn) {
+        this(dbId, id, owner, start, end, new HashSet<>(), spawn, new HashMap<>(), new HashMap<>(), new EnumMap<>(PlotFlag.Target.class));
         this.flags.putAll(PlotFlag.DEFAULT_PERMISSIONS);
     }
 
@@ -123,8 +130,12 @@ public final class Plot {
         this.members.remove(target.getUuid());
     }
 
-    public int getLevel() {
-        return 1;
+    public long getDbId() {
+        return dbId;
+    }
+
+    public void setDbId(long dbId) {
+        this.dbId = dbId;
     }
 
     public PlotId getId() {
@@ -177,5 +188,21 @@ public final class Plot {
 
     public Vec getCenter() {
         return this.start.add(this.end).div(2);
+    }
+
+    @Override
+    public String toString() {
+        return "Plot{" +
+                "dbId=" + dbId +
+                ", id=" + id +
+                ", owner=" + owner +
+                ", start=" + start +
+                ", end=" + end +
+                ", bannedPlayers=" + bannedPlayers +
+                ", warps=" + warps +
+                ", members=" + members +
+                ", flags=" + flags +
+                ", spawn=" + spawn +
+                '}';
     }
 }

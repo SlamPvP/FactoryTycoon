@@ -1,6 +1,9 @@
 package com.slampvp.factory.database.queries;
 
+import org.intellij.lang.annotations.Language;
+
 public final class CreateTables {
+    @Language("PostgreSQL")
     public static final String TABLES_QUERY = """
             DO
             $$
@@ -43,7 +46,7 @@ public final class CreateTables {
                 BEGIN
                     CREATE TABLE IF NOT EXISTS plots
                     (
-                        id      BIGINT GENERATED ALWAYS AS IDENTITY,
+                        id      SERIAL,
                         plot_id PLOT_ID     NOT NULL,
                         owner   VARCHAR(36) NOT NULL,
                         start   VEC         NOT NULL,
@@ -52,6 +55,7 @@ public final class CreateTables {
                         PRIMARY KEY (id)
                     );
                     CREATE INDEX IF NOT EXISTS index_plots_on_owner ON plots (owner);
+                    CREATE INDEX IF NOT EXISTS unique_index_plots_on_plot_id ON plots (plot_id);
                     CREATE TABLE IF NOT EXISTS plot_banned_players
                     (
                         plot_id BIGINT      NOT NULL,

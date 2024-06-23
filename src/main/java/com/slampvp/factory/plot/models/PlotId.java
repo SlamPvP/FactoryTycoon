@@ -1,8 +1,18 @@
 package com.slampvp.factory.plot.models;
 
+import java.util.Arrays;
+
 public record PlotId(int x, int z) {
-    public int getSum() {
-        return Math.abs(x) + Math.abs(z);
+    public static PlotId fromSQL(String string) {
+        Integer[] array = Arrays.stream(string.substring(1, string.length() - 1).split(","))
+                .map(Integer::parseInt)
+                .toArray(Integer[]::new);
+
+        return new PlotId(array[0], array[1]);
+    }
+
+    public String toSQL() {
+        return "(" + x + "," + z + ")";
     }
 
     @Override
@@ -11,17 +21,5 @@ public record PlotId(int x, int z) {
                 "x=" + x +
                 ", z=" + z +
                 '}';
-    }
-
-    public String toSql() {
-        return "(" + x + "," + z + ")";
-    }
-
-    public PlotId increment() {
-        boolean xLarger = Math.abs(x) >= Math.abs(z);
-
-        // TODO: fix with -
-
-        return new PlotId(xLarger ? x : x + 1, xLarger ? z + 1 : z);
     }
 }
