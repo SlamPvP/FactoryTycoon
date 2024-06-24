@@ -2,13 +2,15 @@ package com.slampvp.factory.minion;
 
 import net.kyori.adventure.text.TextComponent;
 import net.minestom.server.instance.block.Block;
+import net.minestom.server.item.ItemStack;
+import net.minestom.server.item.Material;
+import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public final class MinionImpl implements Minion {
     private static final Set<Minion> MINIONS = new HashSet<>();
@@ -20,13 +22,13 @@ public final class MinionImpl implements Minion {
     private final String id;
     private final TextComponent name;
     private final TextComponent lore;
-    private final Block block;
+    private final Material material;
 
-    public MinionImpl(@NotNull String id, @NotNull TextComponent name, @NotNull TextComponent lore, @NotNull Block block) {
+    public MinionImpl(@NotNull String id, @NotNull TextComponent name, @NotNull TextComponent lore, @NotNull Material material) {
         this.id = id;
         this.name = name;
         this.lore = lore;
-        this.block = block;
+        this.material = material;
     }
 
     static @NotNull Optional<Minion> getById(String id) {
@@ -53,17 +55,27 @@ public final class MinionImpl implements Minion {
     }
 
     @Override
-    public @NotNull Block getBlock() {
-        return this.block;
+    public @NotNull Material getMaterial() {
+        return this.material;
+    }
+
+    @Override
+    public @NotNull ItemStack getItem() {
+        return ItemStack
+                .builder(this.material)
+                .customName(this.name)
+                .lore(this.lore)
+                .build()
+                .withTag(Tag.String("minion"), getId());
     }
 
     @Override
     public String toString() {
         return "MinionImpl{" +
                 "id='" + id + '\'' +
-                ", name=" + name +
-                ", lore=" + lore +
-                ", block=" + block +
+                ", name=" + name.content() +
+                ", lore=" + lore.content() +
+                ", block=" + material.name() +
                 '}';
     }
 }
