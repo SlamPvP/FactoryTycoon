@@ -2,6 +2,7 @@ package com.slampvp.factory;
 
 import com.slampvp.factory.command.FactoryCommand;
 import com.slampvp.factory.database.DatabaseManager;
+import com.slampvp.factory.minion.MinionManager;
 import com.slampvp.factory.player.PlayerListener;
 import com.slampvp.factory.plot.PlotGenerator;
 import com.slampvp.factory.plot.PlotManager;
@@ -42,8 +43,9 @@ public final class FactoryServer {
 
         new PlayerListener(instanceContainer);
 
-        PlotManager.getInstance().init();
         DatabaseManager.getInstance().init();
+        PlotManager.getInstance().init();
+        MinionManager.getInstance().init();
 
         streamPackage("com.slampvp.factory.command", FactoryCommand.class).forEach(c ->
                 MinecraftServer.getCommandManager().register(c)

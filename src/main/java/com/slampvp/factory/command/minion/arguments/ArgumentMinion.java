@@ -1,6 +1,6 @@
 package com.slampvp.factory.command.minion.arguments;
 
-import com.slampvp.factory.minion.Minion;
+import com.slampvp.factory.minion.models.Minion;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.arguments.Argument;
 import net.minestom.server.command.builder.exception.ArgumentSyntaxException;

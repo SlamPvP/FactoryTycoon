@@ -1,9 +1,7 @@
-package com.slampvp.factory.minion;
+package com.slampvp.factory.minion.models;
 
 import net.kyori.adventure.text.TextComponent;
-import net.minestom.server.instance.block.Block;
 import net.minestom.server.item.ItemStack;
-import net.minestom.server.item.Material;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -28,7 +26,7 @@ public sealed interface Minion extends Minions permits MinionImpl {
     TextComponent getLore();
 
     @NotNull
-    Material getMaterial();
+    String getTexture();
 
     @NotNull
     ItemStack getItem();

@@ -1,9 +1,8 @@
-package com.slampvp.factory.minion;
+package com.slampvp.factory.minion.models;
 
+import com.slampvp.factory.common.SkinnableHead;
 import net.kyori.adventure.text.TextComponent;
-import net.minestom.server.instance.block.Block;
 import net.minestom.server.item.ItemStack;
-import net.minestom.server.item.Material;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,26 +11,25 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public final class MinionImpl implements Minion {
+final class MinionImpl implements Minion {
     private static final Set<Minion> MINIONS = new HashSet<>();
-
-    static {
-        MINIONS.add(FARMER_MINION);
-    }
 
     private final String id;
     private final TextComponent name;
     private final TextComponent lore;
-    private final Material material;
+    private final String texture;
 
-    public MinionImpl(@NotNull String id, @NotNull TextComponent name, @NotNull TextComponent lore, @NotNull Material material) {
+    public MinionImpl(@NotNull String id, @NotNull TextComponent name, @NotNull TextComponent lore, @NotNull String texture) {
         this.id = id;
         this.name = name;
         this.lore = lore;
-        this.material = material;
+        this.texture = texture;
+
+        MINIONS.add(this);
     }
 
     static @NotNull Optional<Minion> getById(String id) {
+        System.out.println(MINIONS);
         return MINIONS.stream().filter(minion -> minion.getId().equals(id)).findFirst();
     }
 
@@ -55,14 +53,14 @@ public final class MinionImpl implements Minion {
     }
 
     @Override
-    public @NotNull Material getMaterial() {
-        return this.material;
+    public @NotNull String getTexture() {
+        return this.texture;
     }
 
     @Override
     public @NotNull ItemStack getItem() {
-        return ItemStack
-                .builder(this.material)
+        return new SkinnableHead(this.texture)
+                .builder()
                 .customName(this.name)
                 .lore(this.lore)
                 .build()
@@ -75,7 +73,6 @@ public final class MinionImpl implements Minion {
                 "id='" + id + '\'' +
                 ", name=" + name.content() +
                 ", lore=" + lore.content() +
-                ", block=" + material.name() +
                 '}';
     }
 }

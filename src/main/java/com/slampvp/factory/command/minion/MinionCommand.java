@@ -2,7 +2,7 @@ package com.slampvp.factory.command.minion;
 
 import com.slampvp.factory.command.Command;
 import com.slampvp.factory.command.FactoryCommand;
-import com.slampvp.factory.minion.Minion;
+import com.slampvp.factory.minion.models.Minion;
 import com.slampvp.factory.player.Rank;
 
 @Command(description = "Minion command.", usage = "/minion", minimumRank = Rank.ADMIN, playerOnly = false)

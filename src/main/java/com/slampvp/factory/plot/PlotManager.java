@@ -41,6 +41,7 @@ public final class PlotManager {
         FactoryServer.LOGGER.info("Initializing Plot Listener...");
         new PlotListener();
         FactoryServer.LOGGER.info("Initializing Plot Listener ✔");
+        FactoryServer.LOGGER.info("Initializing Plot Manager ✔");
     }
 
     public List<Plot> getPlots(Player player) {
