@@ -126,4 +126,19 @@ public interface Locale {
                 Component.text("You've successfully merged your plots!").color(NamedTextColor.GREEN)
         );
     }
+
+    /**
+     * Minion-related messages.
+     */
+    interface Minion {
+        TextComponent PREFIX = Component.text()
+                .append(Component.text("[").color(NamedTextColor.RED).decorate(TextDecoration.BOLD))
+                .append(Component.text("Minion").color(NamedTextColor.BLUE).decorate(TextDecoration.BOLD))
+                .append(Component.text("] ").color(NamedTextColor.RED).decorate(TextDecoration.BOLD))
+                .build();
+
+        TextComponent INVALID_ID = PREFIX.append(
+                Component.text("Cannot find a minion with specified id!").color(NamedTextColor.RED)
+        );
+    }
 }

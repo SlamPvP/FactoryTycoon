@@ -7,13 +7,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 import java.util.Set;
 
-public sealed interface Minion extends Minions permits MinionImpl {
+public sealed interface Minion permits MinionImpl {
     static @NotNull Optional<Minion> byId(String id) {
-        return MinionImpl.getById(id);
+        return Minions.getById(id);
     }
 
-    static @NotNull Set<Minion> getAll() {
-        return MinionImpl.getAll();
+    static @NotNull Set<Minion> all() {
+        return Minions.all();
     }
 
     @NotNull

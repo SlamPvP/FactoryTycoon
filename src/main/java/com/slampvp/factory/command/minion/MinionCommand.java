@@ -14,7 +14,7 @@ public class MinionCommand extends FactoryCommand {
     @Override
     public void init() {
         addSyntax(((sender, context) -> {
-            Minion.getAll().forEach(minion -> {
+            Minion.all().forEach(minion -> {
                 sender.sendMessage(minion.toString());
             });
         }));

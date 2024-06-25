@@ -7,8 +7,8 @@ import net.minestom.server.item.Material;
 import net.minestom.server.item.component.HeadProfile;
 import org.jetbrains.annotations.NotNull;
 
-public class ItemStackUtils {
-    public static @NotNull ItemStack.Builder getTexturedHead(String texture) {
+public class ItemStackUtil {
+    public static @NotNull ItemStack.Builder texturedHead(String texture) {
         ItemStack.Builder skull = ItemStack.builder(Material.PLAYER_HEAD);
         HeadProfile profile = new HeadProfile(new PlayerSkin(texture, null));
         skull.set(ItemComponent.PROFILE, profile);

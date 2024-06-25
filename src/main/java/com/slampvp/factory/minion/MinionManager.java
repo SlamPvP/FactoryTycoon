@@ -1,6 +1,7 @@
 package com.slampvp.factory.minion;
 
 import com.slampvp.factory.FactoryServer;
+import com.slampvp.factory.minion.models.ActiveMinion;
 import com.slampvp.factory.minion.models.Minion;
 import net.minestom.server.coordinate.BlockVec;
 import net.minestom.server.coordinate.Pos;
@@ -8,7 +9,9 @@ import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.Player;
+import net.minestom.server.entity.metadata.display.BlockDisplayMeta;
 import net.minestom.server.entity.metadata.display.ItemDisplayMeta;
+import net.minestom.server.instance.block.Block;
 
 public final class MinionManager {
     private static MinionManager instance;
@@ -37,14 +40,18 @@ public final class MinionManager {
 
         ItemDisplayMeta meta = (ItemDisplayMeta) displayEntity.getEntityMeta();
 
+        displayEntity.setInstance(player.getInstance(), position.add(0.5, 3, 0.5));
+
         meta.setItemStack(minion.getItem());
         meta.setScale(new Vec(1.5f, 1.5f, 1.5f));
 
-        meta.setLeftRotation(new float[]{0.0f, 0.0f, 0.0f, 1.0f});
-        meta.setRightRotation(new float[]{0.0f, 1.0f, 0.0f, 0.0f});
-        meta.setTranslation(new Vec(2.0f, 0.0f, -1.0f));
+        meta.setTransformationInterpolationDuration(100);
+        meta.setPosRotInterpolationDuration(100);
+        meta.setTransformationInterpolationStartDelta(0);
 
-        displayEntity.setInstance(player.getInstance(), position.add(0.5, 3, 0.5));
-        displayEntity.teleport(new Pos(position).add(0.5, 3, 0.5));
+        meta.setTranslation(new Vec(0.0f, 0.0f, -1.0f));
+
+        ActiveMinion activeMinion = new ActiveMinion(minion, player.getUuid(), position);
+        // STORE
     }
 }
