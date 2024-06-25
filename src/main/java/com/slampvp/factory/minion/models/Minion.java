@@ -17,16 +17,16 @@ public sealed interface Minion extends Minions permits MinionImpl {
     }
 
     @NotNull
-    String getId();
+    String id();
 
     @NotNull
-    TextComponent getName();
+    TextComponent name();
 
     @NotNull
-    TextComponent getLore();
+    TextComponent lore();
 
     @NotNull
-    String getTexture();
+    String texture();
 
     @NotNull
     ItemStack getItem();

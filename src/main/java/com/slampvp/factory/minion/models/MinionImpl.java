@@ -1,25 +1,17 @@
 package com.slampvp.factory.minion.models;
 
-import com.slampvp.factory.common.SkinnableHead;
+import com.slampvp.factory.common.ItemStackUtils;
 import net.kyori.adventure.text.TextComponent;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
-final class MinionImpl implements Minion {
+record MinionImpl(String id, TextComponent name, TextComponent lore, String texture) implements Minion {
     private static final Set<Minion> MINIONS = new HashSet<>();
 
-    private final String id;
-    private final TextComponent name;
-    private final TextComponent lore;
-    private final String texture;
-
-    public MinionImpl(@NotNull String id, @NotNull TextComponent name, @NotNull TextComponent lore, @NotNull String texture) {
+    MinionImpl(@NotNull String id, @NotNull TextComponent name, @NotNull TextComponent lore, @NotNull String texture) {
         this.id = id;
         this.name = name;
         this.lore = lore;
@@ -30,7 +22,7 @@ final class MinionImpl implements Minion {
 
     static @NotNull Optional<Minion> getById(String id) {
         System.out.println(MINIONS);
-        return MINIONS.stream().filter(minion -> minion.getId().equals(id)).findFirst();
+        return MINIONS.stream().filter(minion -> minion.id().equals(id)).findFirst();
     }
 
     static @NotNull Set<Minion> getAll() {
@@ -38,41 +30,12 @@ final class MinionImpl implements Minion {
     }
 
     @Override
-    public @NotNull String getId() {
-        return this.id;
-    }
-
-    @Override
-    public @NotNull TextComponent getName() {
-        return this.name;
-    }
-
-    @Override
-    public @NotNull TextComponent getLore() {
-        return this.lore;
-    }
-
-    @Override
-    public @NotNull String getTexture() {
-        return this.texture;
-    }
-
-    @Override
     public @NotNull ItemStack getItem() {
-        return new SkinnableHead(this.texture)
-                .builder()
+        return ItemStackUtils
+                .getTexturedHead(this.texture)
                 .customName(this.name)
                 .lore(this.lore)
                 .build()
-                .withTag(Tag.String("minion"), getId());
-    }
-
-    @Override
-    public String toString() {
-        return "MinionImpl{" +
-                "id='" + id + '\'' +
-                ", name=" + name.content() +
-                ", lore=" + lore.content() +
-                '}';
+                .withTag(Tag.String("minion"), id());
     }
 }

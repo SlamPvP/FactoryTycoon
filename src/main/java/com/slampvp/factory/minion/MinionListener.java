@@ -24,13 +24,14 @@ public class MinionListener {
                 return;
             }
 
-            Optional<Minion> minion = Minion.byId(minionId);
-            if (minion.isEmpty()) {
+            Optional<Minion> optionalMinion = Minion.byId(minionId);
+            if (optionalMinion.isEmpty()) {
                 return;
             }
 
             event.setCancelled(true);
             player.setItemInMainHand(itemInHand.withAmount(itemInHand.amount() - 1));
+            minionManager.addMinion(player, event.getBlockPosition(), optionalMinion.get());
         });
     }
 }
