@@ -1,10 +1,12 @@
 package com.slampvp.factory;
 
+import com.slampvp.factory.blocks.VanillaBlocks;
 import com.slampvp.factory.command.FactoryCommand;
 import com.slampvp.factory.database.DatabaseManager;
 import com.slampvp.factory.player.PlayerListener;
 import com.slampvp.factory.plot.PlotGenerator;
 import com.slampvp.factory.plot.PlotManager;
+import com.slampvp.factory.randomticksystem.RandomTickManager;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.extras.MojangAuth;
@@ -44,6 +46,9 @@ public final class FactoryServer {
 
         PlotManager.getInstance().init();
         DatabaseManager.getInstance().init();
+
+        RandomTickManager.getInstance().init();
+        VanillaBlocks.registerAll(instanceContainer);
 
         streamPackage("com.slampvp.factory.command", FactoryCommand.class).forEach(c ->
                 MinecraftServer.getCommandManager().register(c)

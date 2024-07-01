@@ -22,7 +22,7 @@ public final class DatabaseManager {
         config.addDataSourceProperty("serverName", "localhost");
         config.addDataSourceProperty("portNumber", "5432");
         config.addDataSourceProperty("databaseName", "factory");
-        config.addDataSourceProperty("user", "postgres");
+        config.addDataSourceProperty("user", "factory");
         config.addDataSourceProperty("password", "password");
 
         config.setMaximumPoolSize(5);
