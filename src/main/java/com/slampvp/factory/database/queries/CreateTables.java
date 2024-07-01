@@ -102,8 +102,8 @@ public final class CreateTables {
                         owner               VARCHAR(36) NOT NULL,
                         time_active         BIGINT      NOT NULL,
                         amount_generated    BIGINT      NOT NULL,
-                        position            POS         NOT NULL,
-                        chest_position       POS,
+                        position            VEC         NOT NULL,
+                        chest_position      VEC,
                         PRIMARY KEY (id)
                     );
                     CREATE INDEX IF NOT EXISTS index_minions_on_owner ON minions (owner);

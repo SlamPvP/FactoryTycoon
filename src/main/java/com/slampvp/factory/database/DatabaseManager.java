@@ -78,6 +78,7 @@ public final class DatabaseManager {
 
                 return Long.valueOf(-1);
             } catch (SQLException e) {
+                FactoryServer.LOGGER.error(e.getMessage());
                 throw new RuntimeException(e);
             }
         }, executor);

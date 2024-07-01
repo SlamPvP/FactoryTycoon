@@ -21,17 +21,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.stream.Stream;
 
-
 public final class FactoryServer {
     public static final Logger LOGGER = LoggerFactory.getLogger(FactoryServer.class);
 
     public static void main(String[] args) {
+        long start = System.currentTimeMillis();
         MinecraftServer minecraftServer = MinecraftServer.init();
         MojangAuth.init();
-
-        MinecraftServer.getSchedulerManager().buildShutdownTask(() -> {
-            DatabaseManager.getInstance().close();
-        });
 
         InstanceManager instanceManager = MinecraftServer.getInstanceManager();
         InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
@@ -51,7 +47,13 @@ public final class FactoryServer {
                 MinecraftServer.getCommandManager().register(c)
         );
 
+        MinecraftServer.getSchedulerManager().buildShutdownTask(() -> {
+            DatabaseManager.getInstance().close();
+            instanceContainer.saveChunksToStorage();
+        });
+
         minecraftServer.start("0.0.0.0", 25565);
+        LOGGER.info("Server started in {}ms.", System.currentTimeMillis() - start);
     }
 
     public static <T> Stream<T> streamPackage(String packageName, Class<T> clazz) {
@@ -87,5 +89,4 @@ public final class FactoryServer {
                 })
                 .filter(java.util.Objects::nonNull);
     }
-
 }

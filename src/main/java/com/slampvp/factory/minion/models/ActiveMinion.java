@@ -1,6 +1,7 @@
 package com.slampvp.factory.minion.models;
 
 import net.minestom.server.coordinate.BlockVec;
+import net.minestom.server.coordinate.Vec;
 
 import java.util.UUID;
 
@@ -9,11 +10,11 @@ public final class ActiveMinion {
     private final UUID owner;
     private final MinionStats stats;
     private final MinionUpgrades upgrades;
-    private BlockVec position;
+    private Vec position;
     private BlockVec chestPosition;
     private long dbId;
 
-    public ActiveMinion(long dbId, BlockVec chestPosition, BlockVec position, MinionUpgrades upgrades, MinionStats stats, Minion minion, UUID owner) {
+    public ActiveMinion(long dbId, BlockVec chestPosition, Vec position, MinionUpgrades upgrades, MinionStats stats, Minion minion, UUID owner) {
         this.dbId = dbId;
         this.chestPosition = chestPosition;
         this.position = position;
@@ -23,7 +24,7 @@ public final class ActiveMinion {
         this.owner = owner;
     }
 
-    public ActiveMinion(Minion minion, UUID owner, BlockVec position) {
+    public ActiveMinion(Minion minion, UUID owner, Vec position) {
         this.minion = minion;
         this.owner = owner;
         this.position = position;
@@ -35,7 +36,7 @@ public final class ActiveMinion {
         return this.minion;
     }
 
-    public BlockVec position() {
+    public Vec position() {
         return this.position;
     }
 
@@ -55,7 +56,7 @@ public final class ActiveMinion {
         this.chestPosition = chestPosition;
     }
 
-    public void setPosition(BlockVec position) {
+    public void setPosition(Vec position) {
         this.position = position;
     }
 

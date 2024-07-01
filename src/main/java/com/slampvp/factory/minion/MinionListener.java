@@ -31,7 +31,7 @@ public class MinionListener {
 
             event.setCancelled(true);
             player.setItemInMainHand(itemInHand.withAmount(itemInHand.amount() - 1));
-            minionManager.addMinion(player, event.getBlockPosition(), optionalMinion.get());
+            minionManager.addMinion(player, event.getBlockPosition().asVec(), optionalMinion.get());
         });
     }
 }
