@@ -1,6 +1,7 @@
 package com.slampvp.factory;
 
 import com.slampvp.factory.command.FactoryCommand;
+import com.slampvp.factory.common.menu.MenuListener;
 import com.slampvp.factory.database.DatabaseManager;
 import com.slampvp.factory.player.PlayerListener;
 import com.slampvp.factory.plot.PlotGenerator;
@@ -41,6 +42,7 @@ public final class FactoryServer {
         instanceContainer.setTimeRate(0);
 
         new PlayerListener(instanceContainer);
+        new MenuListener();
 
         PlotManager.getInstance().init();
         DatabaseManager.getInstance().init();
