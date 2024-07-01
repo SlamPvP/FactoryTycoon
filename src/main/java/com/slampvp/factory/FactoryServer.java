@@ -1,6 +1,7 @@
 package com.slampvp.factory;
 
 import com.slampvp.factory.command.FactoryCommand;
+import com.slampvp.factory.common.menu.MenuListener;
 import com.slampvp.factory.database.DatabaseManager;
 import com.slampvp.factory.minion.MinionManager;
 import com.slampvp.factory.player.PlayerListener;
@@ -38,6 +39,7 @@ public final class FactoryServer {
         instanceContainer.setTimeRate(0);
 
         new PlayerListener(instanceContainer);
+        new MenuListener();
 
         DatabaseManager.getInstance().init();
         PlotManager.getInstance().init();

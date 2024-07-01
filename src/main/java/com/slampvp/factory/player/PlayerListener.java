@@ -13,7 +13,6 @@ import net.minestom.server.event.player.PlayerSpawnEvent;
 import net.minestom.server.instance.InstanceContainer;
 
 public class PlayerListener {
-
     public PlayerListener(InstanceContainer instanceContainer) {
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
 
