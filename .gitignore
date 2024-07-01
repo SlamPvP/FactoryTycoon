@@ -40,3 +40,5 @@ build/
 ### NixOS ###
 .envrc
 .env
+
+worlds/
