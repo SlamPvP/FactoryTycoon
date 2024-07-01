@@ -1,10 +1,6 @@
 package com.slampvp.factory.randomticksystem;
 
-import com.slampvp.factory.FactoryServer;
-import com.slampvp.factory.blocks.BlockBehaviour;
 import com.slampvp.factory.blocks.behaviours.randomtick.RandomTickable;
-import com.slampvp.factory.blocks.behaviours.randomtick.RandomTickableCrop;
-import com.slampvp.factory.plot.PlotManager;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import net.minestom.server.MinecraftServer;
@@ -17,13 +13,9 @@ import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class RandomTickManager {
-
-    private static final @NotNull String RANDOM_TICK_SYSTEM_PROPERTY = "vri.gamerule.randomtickspeed";
 
     private static final Short2ObjectMap<RandomTickable> randomTickables = new Short2ObjectOpenHashMap<>();
     private final Random random = new Random();
