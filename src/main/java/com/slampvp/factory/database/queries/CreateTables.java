@@ -95,6 +95,18 @@ public final class CreateTables {
                     );
                     CREATE UNIQUE INDEX IF NOT EXISTS index_plot_flags_on_all ON plot_flags (plot_id, target, flags);
                     CREATE INDEX IF NOT EXISTS index_plot_flags_on_plot_id ON plot_flags (plot_id);
+                    CREATE TABLE IF NOT EXISTS minions
+                    (
+                        id                  SERIAL,
+                        minion_id           TEXT        NOT NULL,
+                        owner               VARCHAR(36) NOT NULL,
+                        time_active         BIGINT      NOT NULL,
+                        amount_generated    BIGINT      NOT NULL,
+                        position            VEC         NOT NULL,
+                        chest_position      VEC,
+                        PRIMARY KEY (id)
+                    );
+                    CREATE INDEX IF NOT EXISTS index_minions_on_owner ON minions (owner);
                 END
             $$;
             """;

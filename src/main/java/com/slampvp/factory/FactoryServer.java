@@ -3,6 +3,7 @@ package com.slampvp.factory;
 import com.slampvp.factory.command.FactoryCommand;
 import com.slampvp.factory.common.menu.MenuListener;
 import com.slampvp.factory.database.DatabaseManager;
+import com.slampvp.factory.minion.MinionManager;
 import com.slampvp.factory.player.PlayerListener;
 import com.slampvp.factory.plot.PlotGenerator;
 import com.slampvp.factory.plot.PlotManager;
@@ -21,17 +22,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.stream.Stream;
 
-
 public final class FactoryServer {
     public static final Logger LOGGER = LoggerFactory.getLogger(FactoryServer.class);
 
     public static void main(String[] args) {
+        long start = System.currentTimeMillis();
         MinecraftServer minecraftServer = MinecraftServer.init();
         MojangAuth.init();
-
-        MinecraftServer.getSchedulerManager().buildShutdownTask(() -> {
-            DatabaseManager.getInstance().close();
-        });
 
         InstanceManager instanceManager = MinecraftServer.getInstanceManager();
         InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
@@ -44,14 +41,21 @@ public final class FactoryServer {
         new PlayerListener(instanceContainer);
         new MenuListener();
 
-        PlotManager.getInstance().init();
         DatabaseManager.getInstance().init();
+        PlotManager.getInstance().init();
+        MinionManager.getInstance().init();
 
         streamPackage("com.slampvp.factory.command", FactoryCommand.class).forEach(c ->
                 MinecraftServer.getCommandManager().register(c)
         );
 
+        MinecraftServer.getSchedulerManager().buildShutdownTask(() -> {
+            DatabaseManager.getInstance().close();
+            instanceContainer.saveChunksToStorage();
+        });
+
         minecraftServer.start("0.0.0.0", 25565);
+        LOGGER.info("Server started in {}ms.", System.currentTimeMillis() - start);
     }
 
     public static <T> Stream<T> streamPackage(String packageName, Class<T> clazz) {
@@ -87,5 +91,4 @@ public final class FactoryServer {
                 })
                 .filter(java.util.Objects::nonNull);
     }
-
 }
