@@ -54,7 +54,7 @@ public final class FactoryServer {
                 MinecraftServer.getCommandManager().register(c)
         );
 
-        minecraftServer.start("0.0.0.0", 25565);
+        minecraftServer.start("0.0.0.0", 25567);
     }
 
     public static <T> Stream<T> streamPackage(String packageName, Class<T> clazz) {

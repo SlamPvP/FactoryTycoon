@@ -11,7 +11,6 @@ import net.minestom.server.event.instance.InstanceTickEvent;
 import net.minestom.server.instance.Chunk;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -20,7 +19,6 @@ public class RandomTickManager {
     private static final Short2ObjectMap<RandomTickable> randomTickables = new Short2ObjectOpenHashMap<>();
     private final Random random = new Random();
     private static RandomTickManager instance;
-
 
     private RandomTickManager() {}
 
@@ -34,7 +32,7 @@ public class RandomTickManager {
     public void init() {
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
         globalEventHandler.addListener(InstanceTickEvent.class, event -> {
-            int randomTickCount = 300;
+            int randomTickCount = 20;
             instance.handleInstanceTick(event, randomTickCount);
         });
     }
@@ -73,6 +71,6 @@ public class RandomTickManager {
         Block block = instance.getBlock(x, y, z);
         RandomTickable randomTickable = randomTickables.get((short) block.stateId());
         if (randomTickable == null) return;
-        randomTickable.randomTick(pos);
+        randomTickable.randomTick(pos, block.stateId());
     }
 }

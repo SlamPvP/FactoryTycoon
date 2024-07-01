@@ -11,5 +11,5 @@ public abstract class RandomTickable extends BlockBehaviour {
         super(context);
     }
 
-    public void randomTick(Point pos) {}
+    public void randomTick(Point pos, int stage) {}
 }

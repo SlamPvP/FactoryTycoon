@@ -1,20 +1,27 @@
 package com.slampvp.factory.blocks;
 
-import com.slampvp.factory.blocks.behaviours.randomtick.RandomTickable;
+import com.slampvp.factory.blocks.behaviours.randomtick.RandomTickableCactus;
 import com.slampvp.factory.blocks.behaviours.randomtick.RandomTickableCrop;
 import com.slampvp.factory.randomticksystem.RandomTickManager;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Random;
+
 public enum VanillaBlocks {
 
     WHEAT(Block.WHEAT, (context) -> new RandomTickableCrop(context, 7, 2)),
-    CARROT(Block.CARROTS, (context) -> new RandomTickableCrop(context, 5, 2)),
+    CARROT(Block.CARROTS, (context) -> new RandomTickableCrop(context, 7, 2)),
+    POTATO(Block.POTATOES, (context) -> new RandomTickableCrop(context, 7, 2)),
+    BEETROOT(Block.BEETROOTS, (context) -> new RandomTickableCrop(context, 3, 2)),
+    CACTUS(Block.CACTUS, (context) -> new RandomTickableCactus(context, 3, 1)),
+
     ;
 
-    private final short stateId;
+    private final @NotNull short stateId;
     private final @NotNull Context2Handler context2handler;
+    private final Random random = new Random();
 
     VanillaBlocks(@NotNull Block block, @NotNull Context2Handler context2handler) {
         this.stateId = (short) block.stateId();
@@ -35,8 +42,9 @@ public enum VanillaBlocks {
      * Used to provide context for creating block handlers
      */
     public interface BlockContext {
-        short stateId();
+        @NotNull short stateId();
         @NotNull Instance instance();
+        @NotNull Random random();
     }
 
     /**
@@ -55,12 +63,19 @@ public enum VanillaBlocks {
                 public @NotNull Instance instance() {
                     return instance;
                 }
+
+                @Override
+                public @NotNull Random random() {
+                    return block.random;
+                }
             };
 
             BlockBehaviour behaviour = block.context2handler.apply(context);
 
-            if (behaviour instanceof RandomTickable randomTickable) {
-                RandomTickManager.registerRandomTickable(block.stateId, randomTickable);
+            if (behaviour instanceof RandomTickableCrop crop) {
+                for (int i = 0; i < crop.maxAge; i++) {
+                    RandomTickManager.registerRandomTickable((short) (block.stateId + i), crop);
+                }
             }
         }
     }

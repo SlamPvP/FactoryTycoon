@@ -19,11 +19,11 @@ public final class DatabaseManager {
         HikariConfig config = new HikariConfig();
         config.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
 
-        config.addDataSourceProperty("serverName", "localhost");
-        config.addDataSourceProperty("portNumber", "5432");
+        config.addDataSourceProperty("serverName", "130.61.235.170");
+        config.addDataSourceProperty("portNumber", "25576");
         config.addDataSourceProperty("databaseName", "factory");
-        config.addDataSourceProperty("user", "factory");
-        config.addDataSourceProperty("password", "password");
+        config.addDataSourceProperty("user", "pterodactyl");
+        config.addDataSourceProperty("password", "Pl3453Ch4n63M3!");
 
         config.setMaximumPoolSize(5);
         config.setMinimumIdle(2);
