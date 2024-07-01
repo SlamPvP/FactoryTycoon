@@ -42,5 +42,4 @@ public interface Menu {
 
     default void onClose(InventoryCloseEvent event) {
     }
-
 }
