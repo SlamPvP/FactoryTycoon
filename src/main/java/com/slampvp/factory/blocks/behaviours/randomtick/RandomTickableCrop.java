@@ -1,6 +1,7 @@
 package com.slampvp.factory.blocks.behaviours.randomtick;
 
 import com.slampvp.factory.blocks.VanillaBlocks;
+import com.slampvp.factory.randomticksystem.RandomTick;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.instance.block.Block;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +19,7 @@ public class RandomTickableCrop extends RandomTickable {
     }
 
     @Override
-    public void randomTick(Point pos, int stage) {
-        context.instance().setBlock(pos, Block.fromStateId(stage + 1));
+    public void randomTick(RandomTick randomTick) {
+        context.instance().setBlock(randomTick.position(), Block.fromStateId(randomTick.stage() + 1));
     }
 }

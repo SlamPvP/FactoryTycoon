@@ -71,6 +71,6 @@ public class RandomTickManager {
         Block block = instance.getBlock(x, y, z);
         RandomTickable randomTickable = randomTickables.get((short) block.stateId());
         if (randomTickable == null) return;
-        randomTickable.randomTick(pos, block.stateId());
+        randomTickable.randomTick(new RandomTick(pos, block.stateId()));
     }
 }

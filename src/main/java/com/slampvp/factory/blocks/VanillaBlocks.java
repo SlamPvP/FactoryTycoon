@@ -1,5 +1,6 @@
 package com.slampvp.factory.blocks;
 
+import com.slampvp.factory.blocks.behaviours.randomtick.RandomTickable;
 import com.slampvp.factory.blocks.behaviours.randomtick.RandomTickableCactus;
 import com.slampvp.factory.blocks.behaviours.randomtick.RandomTickableCrop;
 import com.slampvp.factory.randomticksystem.RandomTickManager;
@@ -76,6 +77,10 @@ public enum VanillaBlocks {
                 for (int i = 0; i < crop.maxAge; i++) {
                     RandomTickManager.registerRandomTickable((short) (block.stateId + i), crop);
                 }
+            }
+
+            else if (behaviour instanceof RandomTickable randomTickable) {
+                RandomTickManager.registerRandomTickable(block.stateId, randomTickable);
             }
         }
     }
