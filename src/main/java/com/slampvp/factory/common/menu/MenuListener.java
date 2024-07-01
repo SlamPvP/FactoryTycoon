@@ -32,7 +32,7 @@ public class MenuListener {
 
             MenuItem item = optionalMenuItem.get();
 
-            if (!item.action().canEquip()) {
+            if (item.action().cancel()) {
                 event.setCancelled(true);
             }
 

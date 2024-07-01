@@ -28,7 +28,11 @@ public record MenuItem(List<Integer> slots, ItemStack itemStack, ClickAction act
     }
 
     public MenuItem(IntStream stream, ItemStack itemStack, Consumer<InventoryPreClickEvent> consumer) {
-        this(stream.boxed().toList(), itemStack, consumer);
+        this(stream.boxed().toList(), itemStack, true, consumer);
+    }
+
+    public MenuItem(IntStream stream, ItemStack itemStack, boolean cancel, Consumer<InventoryPreClickEvent> consumer) {
+        this(stream.boxed().toList(), itemStack, cancel, consumer);
     }
 
     public MenuItem(List<Integer> slots, ItemStack itemStack) {
@@ -37,7 +41,16 @@ public record MenuItem(List<Integer> slots, ItemStack itemStack, ClickAction act
     }
 
     public MenuItem(List<Integer> slots, ItemStack itemStack, Consumer<InventoryPreClickEvent> consumer) {
+        this(slots, itemStack, true, consumer);
+    }
+
+    public MenuItem(List<Integer> slots, ItemStack itemStack, boolean cancel, Consumer<InventoryPreClickEvent> consumer) {
         this(slots, itemStack, new ClickAction() {
+            @Override
+            public boolean cancel() {
+                return cancel;
+            }
+
             @Override
             public void onClick(InventoryPreClickEvent event) {
                 consumer.accept(event);
@@ -54,9 +67,13 @@ public record MenuItem(List<Integer> slots, ItemStack itemStack, ClickAction act
         this(List.of(slot), itemStack, consumer);
     }
 
+    public MenuItem(int slot, ItemStack itemStack, boolean cancel, Consumer<InventoryPreClickEvent> consumer) {
+        this(List.of(slot), itemStack, cancel, consumer);
+    }
+
     public interface ClickAction {
-        default boolean canEquip() {
-            return false;
+        default boolean cancel() {
+            return true;
         }
 
         default void onClick(InventoryPreClickEvent event) {
