@@ -1,5 +1,8 @@
 package com.slampvp.factory.common.menu;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.inventory.InventoryPreClickEvent;
 import net.minestom.server.item.ItemStack;
@@ -12,11 +15,14 @@ import java.util.stream.IntStream;
 
 public record MenuItem(List<Integer> slots, ItemStack itemStack, ClickAction action) {
     public static Function<Integer, MenuItem> CLOSE = slot ->
-            new MenuItem(slot, ItemStack.of(Material.BARRIER), event -> {
-                Player player = event.getPlayer();
-                player.closeInventory();
-                MenuManager.getInstance().clearOpenMenu(player);
-            });
+            new MenuItem(slot,
+                    ItemStack.of(Material.BARRIER)
+                            .withCustomName(Component.text("Close").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD)),
+                    event -> {
+                        Player player = event.getPlayer();
+                        player.closeInventory();
+                        MenuManager.getInstance().clearOpenMenu(player);
+                    });
 
     public MenuItem(IntStream stream, ItemStack itemStack) {
         this(stream.boxed().toList(), itemStack, new ClickAction() {
