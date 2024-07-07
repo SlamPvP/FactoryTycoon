@@ -13,11 +13,12 @@ import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
 
 import java.util.Random;
+import java.util.SplittableRandom;
 
 public class RandomTickManager {
 
     private static final Short2ObjectMap<RandomTickable> randomTickables = new Short2ObjectOpenHashMap<>();
-    private final Random random = new Random();
+    private final SplittableRandom random = new SplittableRandom();
     private static RandomTickManager instance;
 
     private RandomTickManager() {}
@@ -68,9 +69,11 @@ public class RandomTickManager {
         int y = minY + random.nextInt(Chunk.CHUNK_SECTION_SIZE);
         Point pos = new Vec(x, y, z);
 
-        Block block = instance.getBlock(x, y, z);
+        Block block = instance.getBlock(pos);
         RandomTickable randomTickable = randomTickables.get((short) block.stateId());
-        if (randomTickable == null) return;
-        randomTickable.randomTick(new RandomTick(pos, block.stateId()));
+        if (randomTickable != null) {
+            randomTickable.randomTick(new RandomTick(pos, block.stateId()));
+
+        }
     }
 }

@@ -18,9 +18,12 @@ public enum VanillaBlocks {
     BEETROOT(Block.BEETROOTS, (context) -> new RandomTickableCrop(context, 3, 2)),
     CACTUS(Block.CACTUS, (context) -> new RandomTickableCactus(context, 3, 1)),
 
+    MELON_STEM(Block.MELON_STEM, (context) -> new RandomTickableCrop(context, 7, 2)),
+    PUMPKIN_STEM(Block.PUMPKIN_STEM, (context) -> new RandomTickableCrop(context, 7, 2))
+
     ;
 
-    private final @NotNull short stateId;
+    private final short stateId;
     private final @NotNull Context2Handler context2handler;
     private final Random random = new Random();
 
@@ -43,7 +46,7 @@ public enum VanillaBlocks {
      * Used to provide context for creating block handlers
      */
     public interface BlockContext {
-        @NotNull short stateId();
+        short stateId();
         @NotNull Instance instance();
         @NotNull Random random();
     }

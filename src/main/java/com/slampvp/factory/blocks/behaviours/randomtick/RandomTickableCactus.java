@@ -21,6 +21,7 @@ public class RandomTickableCactus extends RandomTickable {
     @Override
     public void randomTick(RandomTick randomTick) {
         Point pos = randomTick.position();
+
         if (getCurrentHeight(pos) >= maxHeight) { return; }
         if (context.random().nextInt(growthChance) != 0) { return; }
 
