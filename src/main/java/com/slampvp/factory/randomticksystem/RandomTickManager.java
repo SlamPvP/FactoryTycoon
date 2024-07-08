@@ -12,7 +12,6 @@ import net.minestom.server.instance.Chunk;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
 
-import java.util.Random;
 import java.util.SplittableRandom;
 
 public class RandomTickManager {
@@ -52,14 +51,14 @@ public class RandomTickManager {
                 int maxSection = chunk.getMaxSection();
                 for (int section = minSection; section < maxSection; section++) {
                     for (int i = 0; i < randomTickCount; i++) {
-                        randomTickSection(instance, chunk, section);
+                        randomTickSection(chunk, section);
                     }
                 }
             }
         }
     }
 
-    private void randomTickSection(Instance instance, Chunk chunk, int minSection) {
+    private void randomTickSection(Chunk chunk, int minSection) {
         int minX = chunk.getChunkX() * Chunk.CHUNK_SIZE_X;
         int minZ = chunk.getChunkZ() * Chunk.CHUNK_SIZE_Z;
         int minY = minSection * Chunk.CHUNK_SECTION_SIZE;
@@ -69,11 +68,10 @@ public class RandomTickManager {
         int y = minY + random.nextInt(Chunk.CHUNK_SECTION_SIZE);
         Point pos = new Vec(x, y, z);
 
-        Block block = instance.getBlock(pos);
+        Block block = chunk.getBlock(pos);
         RandomTickable randomTickable = randomTickables.get((short) block.stateId());
         if (randomTickable != null) {
             randomTickable.randomTick(new RandomTick(pos, block.stateId()));
-
         }
     }
 }

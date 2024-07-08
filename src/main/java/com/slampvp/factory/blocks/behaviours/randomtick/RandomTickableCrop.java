@@ -19,6 +19,7 @@ public class RandomTickableCrop extends RandomTickable {
 
     @Override
     public void randomTick(RandomTick randomTick) {
+        //if (context.random().nextInt(growthChance) != 0) { return; }
         context.instance().setBlock(randomTick.position(), Block.fromStateId(randomTick.stage() + 1));
     }
 }

@@ -21,13 +21,14 @@ public class RandomTickableCactus extends RandomTickable {
     @Override
     public void randomTick(RandomTick randomTick) {
         Point pos = randomTick.position();
+        Block block = context.block();
 
-        if (getCurrentHeight(pos) >= maxHeight) { return; }
+        if (getCurrentHeight(pos, block) >= maxHeight) { return; }
         if (context.random().nextInt(growthChance) != 0) { return; }
 
         // Check for air above the cactus
         if (context.instance().getBlock(pos.add(0, 1, 0)) == Block.AIR) {
-            context.instance().setBlock(pos.add(0, 1, 0), Block.CACTUS);
+            context.instance().setBlock(pos.add(0, 1, 0), block);
         }
     }
 
@@ -35,16 +36,17 @@ public class RandomTickableCactus extends RandomTickable {
      * Determine the current height of a cactus
      *
      * @param pos the position of the cactus
+     * @param block the block of the cactus
      * @return the height of the cactus
      */
-    private int getCurrentHeight(Point pos) {
+    private int getCurrentHeight(Point pos, Block block) {
         int height = 1;
-        while (context.instance().getBlock(pos.add(0, height, 0)) == Block.CACTUS) {
+        while (context.instance().getBlock(pos.add(0, height, 0)) == block) {
             height++;
         }
 
         int depth = 1;
-        while (context.instance().getBlock(pos.add(0, -depth, 0)) == Block.CACTUS) {
+        while (context.instance().getBlock(pos.add(0, -depth, 0)) == block) {
             depth++;
         }
 
